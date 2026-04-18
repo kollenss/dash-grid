@@ -129,7 +129,7 @@ Möjlighet att konfigurera flera HA-instanser och blanda entities från olika se
 ```json
 {
   "servers": [
-    { "id": "home", "url": "http://192.168.68.55:8123", "token": "..." },
+    { "id": "home", "url": "http://192.168.x.x:8123", "token": "..." },
     { "id": "cabin", "url": "https://stuga.ha.cloud", "token": "..." }
   ]
 }

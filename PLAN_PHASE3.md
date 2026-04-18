@@ -103,7 +103,7 @@ URL: http://hassboard/?kiosk=true
 # Starta Chrome i kiosk
 /usr/bin/google-chrome --kiosk --noerrdialogs --disable-infobars \
   --disable-session-crashed-bubble \
-  http://192.168.68.55:3000?kiosk=true
+  http://192.168.x.x:3000?kiosk=true
 ```
 
 Dokumenteras i README.

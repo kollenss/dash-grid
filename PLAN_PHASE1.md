@@ -181,7 +181,7 @@ function getHAConfig() {
 
 Flöde:
 1. Klient ansluter till `ws://hassboard/ws`
-2. Servern öppnar en WS-anslutning mot `ws://192.168.68.55:8123/api/websocket`
+2. Servern öppnar en WS-anslutning mot `ws://192.168.x.x:8123/api/websocket`
 3. Autentiserar med token (HA WS auth-handshake)
 4. Vidarebefordrar `subscribe_events` och `state_changed`-events till klienten
 5. Vid reconnect — automatisk återanslutning efter 5s
@@ -299,7 +299,7 @@ body {
 Route: `/settings`
 
 Fält:
-- **Home Assistant URL** — `http://192.168.68.55:8123` (default)
+- **Home Assistant URL** — `http://192.168.x.x:8123` (default)
 - **API Token** — password-input, sparas i SQLite, visas aldrig i klartext igen
 - **Test-anslutning** — knapp som anropar `/api/states` och visar OK/fel
 - **Dashboard-namn** — byt namn på aktuell dashboard
@@ -321,7 +321,7 @@ Enkel version (ingen drag-and-drop ännu):
 
 - [x] `start.cmd` öppnar server (port 3001) + Vite (port 5173) i separata fönster
 - [x] Inställningssida sparar HA URL + token
-- [x] "Testa anslutning" lyckas mot `192.168.68.55:8123` (visar `HA 2026.4.2 — anslutning OK`)
+- [x] "Testa anslutning" lyckas mot `192.168.x.x:8123` (visar `HA 2026.4.2 — anslutning OK`)
 - [x] Man kan lägga till ett SensorCard med entity_id
 - [x] Man kan lägga till ett SwitchCard och toggla det
 - [x] Värden uppdateras via WebSocket utan sidladdning

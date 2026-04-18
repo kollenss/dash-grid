@@ -37,7 +37,7 @@ Modern, Apple-inspirerad dashboard-plattform för Home Assistant. Självhostad, 
 └────────────────┬────────────────────────┘
                  │ HA REST + WebSocket
 ┌────────────────▼────────────────────────┐
-│  Home Assistant  (192.168.68.55:8123)   │
+│  Home Assistant  (192.168.x.x:8123)   │
 └─────────────────────────────────────────┘
 ```
 
@@ -156,7 +156,8 @@ Konfigurations-UI nås via `http://localhost:3000/settings`.
 | [Fas 1](PLAN_PHASE1.md) | Server, SPA-skal, HA-anslutning, sensor + switch | **Klar** (2026-04-16) |
 | [Fas 2](PLAN_PHASE2.md) | Alla 18 korttyper, WebSocket realtid, entity-browser, BusDeparturesCard | **Klar** (2026-04-16) |
 | [Plugin Sprint 1–3](PLAN_PLUGIN_FRAMEWORK.md) | Card Registry, Integrationssystem, CoreContext/useCore | **Klar** (2026-04-16) |
-| [UX — Redigera kort + Visningsläge](PLAN_UX.md) | Edit-modal, view mode, rensa redigeringskontroller | **Nästa** |
+| Plugin end-to-end (live test) | Bugfixar efter första riktiga test av plugin-flödet | **Klar** (2026-04-18) |
+| Deployment | Hosting, server-setup, Docker vs Node.js | **Nästa** |
 | [Plugin Sprint 4](PLAN_PLUGIN_FRAMEWORK.md) | Designsystem, CardShell, CARD_DEVELOPMENT.md | Ej påbörjad |
 | [Fas 3](PLAN_PHASE3.md) | Drag-and-drop, animationer, kiosk, screensaver | Ej påbörjad |
 | [Fas 4](PLAN_PHASE4.md) | Smart Stack, Focus-lägen, command palette | Ej påbörjad |
