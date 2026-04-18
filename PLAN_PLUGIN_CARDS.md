@@ -213,8 +213,8 @@ SensorCard, GaugeCard, HistoryGraphCard, SwitchCard, LightCard, ClimateCard, Cov
 ## Status
 
 - [x] Fas A: Plugin-infrastruktur (server, dynamisk import, galleri-UI) — **KLAR** (2026-04-18)
-- [ ] Fas B: BusDeparturesCard som pilot-plugin
-- [ ] Fas C: Definiera core cards
-- [ ] Fas D: Migrera resterande kort
-- [ ] Publicera `hassboard` på GitHub
+- [x] Fas B: BusDeparturesCard → `avgangstavlan` plugin — **KLAR** (2026-04-18)
+- [x] Fas C: BusDeparturesCard borttagen ur main bundle — **KLAR** (2026-04-18)
+- [x] Publicera `dash-grid` på GitHub — https://github.com/kollenss/dash-grid — **KLAR**
+- [x] Skapa `dash-grid-cards` repo — https://github.com/kollenss/dash-grid-cards — **KLAR**
 - [ ] Skapa `dash-grid-cards` repo
