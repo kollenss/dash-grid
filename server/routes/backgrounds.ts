@@ -2,7 +2,7 @@ import { FastifyPluginAsync } from 'fastify'
 import fs from 'fs'
 import path from 'path'
 
-const BACKGROUNDS_DIR = path.join(__dirname, '..', '..', '..', 'backgrounds')
+const BACKGROUNDS_DIR = path.join(__dirname, '..', '..', 'backgrounds')
 
 interface BackgroundMeta {
   filename: string
