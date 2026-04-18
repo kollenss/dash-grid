@@ -1,0 +1,320 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: var(--hb-modal-bg, rgba(14, 26, 58, 0.95));
+  -webkit-backdrop-filter: var(--hb-card-blur, blur(24px) saturate(1.6));
+  backdrop-filter: var(--hb-card-blur, blur(24px) saturate(1.6));
+  border: 1px solid var(--hb-card-border, rgba(255, 255, 255, 0.14));
+  border-radius: 24px;
+  padding: 24px 24px 20px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--hb-text-primary);
+  margin-bottom: 16px;
+}
+
+/* ── Live-förhandsgranskning ──────── */
+
+.modal-preview-outer {
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 0 auto;
+  flex-shrink: 0;
+  outline: 1px solid var(--hb-card-border, rgba(255, 255, 255, 0.08));
+}
+
+/* Förhindra hover-lyft på glass-card i preview */
+.modal-preview-outer .glass-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.modal-preview-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 12px;
+  color: var(--hb-text-dim);
+  font-style: italic;
+}
+
+/* ── Type selection grid ─────────── */
+
+.modal-type-group {
+  margin-bottom: 14px;
+}
+
+.modal-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--hb-accent);
+  margin-bottom: 7px;
+  padding-left: 2px;
+}
+
+.modal-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 7px;
+}
+
+.modal-type-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 6px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--hb-card-border, rgba(255, 255, 255, 0.12));
+  color: var(--hb-text-secondary);
+  cursor: pointer;
+  transition: background 0.14s, transform 0.12s;
+}
+
+.modal-type-tile:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--hb-text-primary);
+}
+
+.modal-type-tile:active {
+  transform: scale(0.93);
+}
+
+.modal-type-icon { font-size: 22px; line-height: 1; }
+.modal-type-name { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; text-align: center; }
+
+/* ── Config step ─────────────────── */
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.modal-back-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.modal-back-btn {
+  font-size: 12px;
+  color: var(--hb-text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.modal-back-btn:hover { color: var(--hb-text-primary); }
+
+.modal-step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--hb-text-primary);
+}
+
+.modal-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  color: var(--hb-text-dim);
+  text-transform: uppercase;
+}
+
+.modal-label-check {
+  flex-direction: row;
+  align-items: center;
+  text-transform: none;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--hb-text-secondary);
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.modal-label-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--hb-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.modal-input {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--hb-card-border, rgba(255, 255, 255, 0.15));
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--hb-text-primary);
+  outline: none;
+}
+
+.modal-input::placeholder { color: var(--hb-text-dim); }
+.modal-input:focus { border-color: var(--hb-accent); }
+select.modal-input option { background: #111; }
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.modal-entity-row {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-entity-input {
+  flex: 1;
+}
+
+.modal-browse-btn {
+  padding: 9px 14px;
+  border-radius: 9px;
+  background: var(--hb-accent-dim, rgba(90, 200, 250, 0.18));
+  border: 1px solid rgba(var(--hb-accent-rgb, 90, 200, 250), 0.35);
+  color: var(--hb-accent, #5ac8fa);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.modal-browse-btn:hover { background: rgba(var(--hb-accent-rgb, 90, 200, 250), 0.28); }
+
+.modal-size-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Scope all action buttons inside .modal-card to avoid collision with SettingsPage.css */
+
+.modal-card .btn-cancel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--hb-card-border, rgba(255, 255, 255, 0.15));
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--hb-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-card .btn-cancel:hover { background: rgba(255, 255, 255, 0.12); }
+
+.modal-card .btn-primary {
+  flex: 1;
+  background: var(--hb-accent);
+  color: #111;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s;
+}
+.modal-card .btn-primary:hover { opacity: 0.88; }
+
+.modal-card .btn-delete {
+  width: 100%;
+  margin-top: 4px;
+  padding: 9px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 80, 80, 0.35);
+  color: var(--hb-status-error, rgba(255, 100, 100, 0.75));
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.modal-card .btn-delete:hover {
+  background: rgba(255, 60, 60, 0.12);
+  color: var(--hb-status-error, rgba(255, 120, 120, 1));
+  border-color: rgba(255, 80, 80, 0.6);
+}
+
+.modal-card .btn-delete--confirm {
+  background: rgba(200, 40, 40, 0.25);
+  border-color: rgba(255, 80, 80, 0.8);
+  color: var(--hb-text-primary);
+  font-weight: 600;
+}
+
+/* ── Integrationskontroll-banner ─────────── */
+
+.modal-integration-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 190, 60, 0.12);
+  border: 1px solid rgba(255, 190, 60, 0.35);
+  font-size: 13px;
+  color: rgba(255, 210, 100, 0.95);
+  flex-wrap: wrap;
+}
+
+.modal-integration-warning__icon {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.modal-integration-warning__link {
+  margin-left: auto;
+  color: rgba(255, 210, 100, 0.95);
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.modal-integration-warning__link:hover {
+  color: var(--hb-text-primary);
+}

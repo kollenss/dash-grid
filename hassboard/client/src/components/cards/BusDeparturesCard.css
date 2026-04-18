@@ -1,0 +1,234 @@
+.bus-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+.bus-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.bus-updated {
+  font-size: 11px;
+  opacity: 0.4;
+}
+
+.bus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bus-row {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--hb-divider);
+}
+
+/* Compact-läge (rowSpan=1): tätare padding */
+.bus-card--compact {
+  gap: 2px;
+  padding: 10px 14px;
+}
+
+.bus-card--compact .bus-card-header {
+  margin-bottom: 0;
+}
+
+.bus-card--compact .bus-error,
+.bus-card--compact .bus-empty {
+  padding: 4px 0;
+}
+
+/* Compact med riktning (colSpan≥3): behåll 3 kolumner */
+.bus-card--compact:not(.bus-card--narrow) .bus-row {
+  grid-template-columns: 42px 1fr auto;
+  padding: 2px 0;
+}
+
+/* Compact utan riktning (colSpan<3): 2 kolumner */
+.bus-card--compact.bus-card--narrow .bus-row {
+  grid-template-columns: 42px auto;
+  padding: 2px 0;
+}
+
+/* Smal multi-rad (colSpan<3): bara badge + tid */
+.bus-card--narrow:not(.bus-card--compact) .bus-row {
+  grid-template-columns: 42px auto;
+}
+
+/* ── Minimal 1xN-layout ─────────────────────────────────────────────────── */
+.bus-card--minimal {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.bus-minimal-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+
+.bus-minimal-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  border-bottom: 1px solid var(--hb-divider);
+}
+
+.bus-minimal-row:last-child {
+  border-bottom: none;
+}
+
+.bus-minimal-mins {
+  font-size: 12px;
+  opacity: 0.9;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bus-minimal-mins strong {
+  font-size: 14px;
+}
+
+.bus-minimal-empty {
+  font-size: 18px;
+  opacity: 0.3;
+}
+
+.bus-row:last-child {
+  border-bottom: none;
+}
+
+.bus-row--cancelled {
+  opacity: 0.45;
+}
+
+.bus-line-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 6px;
+  min-width: 34px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.bus-direction {
+  font-size: 13px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bus-time-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bus-planned {
+  font-size: 12px;
+  opacity: 0.55;
+}
+
+.bus-delay {
+  color: var(--hb-status-caution);
+  opacity: 1;
+  font-weight: 600;
+}
+
+.bus-mins-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bus-mins-badge strong {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.bus-mins-unit {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.bus-mins-now {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.bus-now {
+  color: var(--hb-status-on);
+  font-weight: 700;
+}
+
+.bus-cancelled {
+  color: var(--hb-status-error);
+  font-size: 12px;
+}
+
+.bus-next {
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.75;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bus-next-badge {
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 5px;
+}
+
+.bus-error,
+.bus-empty {
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.bus-error {
+  color: var(--hb-status-error);
+  opacity: 0.8;
+}

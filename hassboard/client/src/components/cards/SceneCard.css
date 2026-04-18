@@ -1,0 +1,28 @@
+.scene-card {
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--scene-color, var(--hb-card-bg, rgba(255, 255, 255, 0.14))) !important;
+  transition: transform var(--hb-duration-fast) var(--hb-ease-spring), box-shadow var(--hb-duration-fast) ease !important;
+  user-select: none;
+}
+
+.scene-card:active,
+.scene-card.pressed {
+  transform: scale(0.93) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.scene-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.scene-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--hb-text-prominent);
+  text-align: center;
+  letter-spacing: 0.2px;
+}

@@ -1,0 +1,516 @@
+/* ── Design Drawer ─────────────────────────────────────────────────────────── */
+
+.design-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 300px;
+  background: rgba(12, 12, 20, 0.97);
+  border-left: 1px solid rgba(255, 255, 255, 0.10);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.design-drawer--open {
+  transform: translateX(0);
+}
+
+.design-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.design-drawer__title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.design-drawer__close {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.design-drawer__close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.design-drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+.design-drawer__footer {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* ── Design Tab (trigger) ──────────────────────────────────────────────────── */
+
+.design-tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 88px;
+  background: rgba(14, 14, 22, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  z-index: 201;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.15s;
+  box-shadow: -3px 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.design-tab:hover {
+  background: rgba(22, 22, 34, 0.96);
+}
+
+.design-tab--open {
+  right: 300px;
+}
+
+.design-tab__label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+}
+
+/* ── Section labels ────────────────────────────────────────────────────────── */
+
+.dd-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.dd-section-divider {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin-top: 4px;
+}
+
+/* ── Theme grid ────────────────────────────────────────────────────────────── */
+
+.dd-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.dd-theme-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, transform 0.1s;
+}
+
+.dd-theme-tile:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dd-theme-tile--active {
+  border-color: var(--hb-accent) !important;
+}
+
+.dd-theme-tile__preview {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  padding: 7px;
+  gap: 4px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dd-theme-tile__accent-bar {
+  height: 3px;
+  width: 40%;
+  border-radius: 2px;
+  opacity: 0.9;
+}
+
+.dd-theme-tile__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.dd-theme-tile__line {
+  height: 2px;
+  width: 55%;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 2px;
+}
+
+.dd-theme-tile__line--wide {
+  width: 75%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dd-theme-tile__name {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 2px;
+}
+
+/* ── Customizer ────────────────────────────────────────────────────────────── */
+
+.dd-customizer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.dd-customizer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-customizer__header--toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.dd-customizer__chevron {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-left: auto;
+}
+
+.dd-customizer__unsaved-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--hb-accent, #5ac8fa);
+  flex-shrink: 0;
+}
+
+.dd-customizer__reset-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.dd-customizer__label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+}
+
+.dd-reset-btn {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dd-reset-btn:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ── Labels, sliders, color pickers ────────────────────────────────────────── */
+
+.dd-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+.dd-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-slider {
+  flex: 1;
+  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #5ac8fa;
+}
+
+.dd-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.dd-value {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  min-width: 34px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-color-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-color {
+  width: 32px;
+  height: 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dd-color-preview {
+  width: 28px;
+  height: 16px;
+  border-radius: 5px;
+  border: 1px solid;
+  opacity: 0.85;
+}
+
+/* ── Custom theme tile wrapper (with delete button) ────────────────────────── */
+
+.dd-custom-tile-wrap {
+  position: relative;
+}
+
+.dd-delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+  z-index: 1;
+}
+
+.dd-custom-tile-wrap:hover .dd-delete-btn {
+  opacity: 1;
+}
+
+.dd-delete-btn:hover {
+  background: rgba(255, 59, 48, 0.7);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ── Save dialog overlay ───────────────────────────────────────────────────── */
+
+.dd-dialog-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 16, 0.75);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.dd-dialog {
+  width: 100%;
+  background: rgba(16, 16, 26, 0.98);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 20px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dd-dialog__title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dd-dialog__input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #fff;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.dd-dialog__input:focus {
+  border-color: #5ac8fa;
+}
+
+.dd-dialog__error {
+  font-size: 12px;
+  color: #ff6b6b;
+  margin-top: -6px;
+}
+
+.dd-dialog__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dd-dialog__btn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, background 0.15s;
+  text-align: center;
+}
+
+.dd-dialog__btn--primary {
+  background: #5ac8fa;
+  color: #0a0a14;
+}
+
+.dd-dialog__btn--primary:hover { opacity: 0.88; }
+
+.dd-dialog__btn--secondary {
+  background: rgba(255, 255, 255, 0.10);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.dd-dialog__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.dd-dialog__btn--ghost {
+  background: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dd-dialog__btn--ghost:hover { color: rgba(255, 255, 255, 0.7); }
+
+/* ── Save button ───────────────────────────────────────────────────────────── */
+
+.dd-save-btn {
+  width: 100%;
+  background: #5ac8fa;
+  color: #0a0a14;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.dd-save-btn:hover {
+  opacity: 0.88;
+}

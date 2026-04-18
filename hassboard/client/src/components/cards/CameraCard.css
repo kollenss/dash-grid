@@ -1,0 +1,80 @@
+.camera-card {
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: relative;
+}
+
+.camera-label {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--hb-text-secondary);
+  text-transform: uppercase;
+  z-index: 2;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.camera-img-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  flex: 1;
+}
+
+.camera-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.camera-error,
+.camera-placeholder {
+  font-size: 24px;
+  color: var(--hb-text-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.camera-footer {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.camera-ts {
+  font-size: 10px;
+  color: var(--hb-text-dim);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.camera-refresh-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--hb-surface-track);
+  color: var(--hb-text-prominent);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--hb-duration-fast);
+}
+
+.camera-refresh-btn:hover { background: rgba(0, 0, 0, 0.6); }

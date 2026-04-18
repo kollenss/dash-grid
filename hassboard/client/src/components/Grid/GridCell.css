@@ -1,0 +1,95 @@
+.hb-grid-cell {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--hb-card-radius, 20px);
+}
+
+.hb-card-error {
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+.hb-card-error__msg {
+  font-size: 11px;
+  color: var(--hb-status-error);
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+
+/* ── Edit-overlay: fångar tap (→ modal) och drag (→ flytta) ── */
+.hb-edit-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: grab;
+  touch-action: none;
+  border-radius: var(--hb-card-radius, 20px);
+}
+
+.hb-edit-overlay:active {
+  cursor: grabbing;
+}
+
+/* ── Drag-to-move feedback ── */
+.hb-grid-cell.is-dragging {
+  z-index: 50;
+}
+
+.hb-grid-cell.is-dragging > *:not(.hb-edit-overlay):not(.hb-resize-handle) {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  transform: scale(1.015);
+  transition: none;
+}
+
+.hb-grid-cell.drop-invalid > *:not(.hb-edit-overlay):not(.hb-resize-handle) {
+  box-shadow: 0 0 0 2px rgba(255, 60, 60, 0.8), 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* ── Resize-handle ── */
+.hb-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  cursor: nwse-resize;
+  touch-action: none;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 7px;
+  border-bottom-right-radius: var(--hb-card-radius, 20px);
+}
+
+/* Tre diagonala punkter — klassisk grip-indikator */
+.hb-resize-grip {
+  display: block;
+  width: 12px;
+  height: 12px;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+  background-image:
+    radial-gradient(circle 1.5px at 10px 10px, rgba(255,255,255,0.9) 100%, transparent 0),
+    radial-gradient(circle 1.5px at 5px 10px,  rgba(255,255,255,0.9) 100%, transparent 0),
+    radial-gradient(circle 1.5px at 10px 5px,  rgba(255,255,255,0.9) 100%, transparent 0);
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+}
+
+.hb-resize-handle:hover .hb-resize-grip,
+.hb-resize-handle:active .hb-resize-grip {
+  opacity: 0.85;
+}
+
+/* Visuell feedback under pågående resize */
+.hb-grid-cell.is-resizing > *:not(.hb-edit-overlay):not(.hb-resize-handle) {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: none;
+}
+
+.hb-grid-cell.is-resizing .hb-resize-grip {
+  opacity: 1;
+}

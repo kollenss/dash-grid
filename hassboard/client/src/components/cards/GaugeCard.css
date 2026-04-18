@@ -1,0 +1,34 @@
+.gauge-card {
+  align-items: center;
+}
+
+.gauge-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.gauge-svg {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  overflow: visible;
+}
+
+.gauge-val {
+  font-size: 26px;
+  font-weight: 200;
+  fill: var(--hb-text-primary);
+}
+
+.gauge-unit {
+  font-size: 11px;
+  fill: var(--hb-text-dim);
+}
+
+.gauge-minmax {
+  font-size: 10px;
+  fill: var(--hb-text-faint);
+}

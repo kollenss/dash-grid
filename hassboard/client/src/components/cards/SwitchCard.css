@@ -1,0 +1,69 @@
+.switch-card {
+  cursor: pointer;
+  justify-content: space-between;
+}
+
+.switch-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  padding-top: 4px;
+}
+
+.switch-status {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--hb-text-primary);
+  transition: color 0.2s;
+}
+
+.switch-status.off {
+  color: var(--hb-text-muted);
+}
+
+/* iOS-style pill toggle */
+.ios-toggle {
+  width: 51px;
+  height: 31px;
+  border-radius: 31px;
+  background: var(--hb-status-off);
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+}
+
+.ios-toggle.on {
+  background: var(--hb-accent);
+}
+
+.ios-toggle.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ios-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s var(--hb-ease-spring);
+  display: block;
+}
+
+.ios-toggle.on .ios-toggle-thumb {
+  transform: translateX(20px);
+}
+
+.switch-last-changed {
+  font-size: 11px;
+  color: var(--hb-text-faint);
+  margin-top: 3px;
+}

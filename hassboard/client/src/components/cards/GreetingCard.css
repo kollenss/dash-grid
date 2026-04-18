@@ -1,0 +1,12 @@
+.greeting-card {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.greeting-text {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--hb-text-primary);
+  letter-spacing: 0.2px;
+  line-height: 1.3;
+}

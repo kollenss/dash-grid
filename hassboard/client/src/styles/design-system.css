@@ -1,0 +1,189 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Dash Grid Design System — CSS Custom Properties (Design Tokens)
+
+   All visual values live here as --hb-* variables.
+   Themes override these via JS (document.documentElement.style.setProperty).
+   User overrides are layered on top of the active theme.
+
+   Naming convention:
+     --hb-card-*       Card / glass surface
+     --hb-text-*       Typography
+     --hb-accent-*     Accent / highlight color
+     --hb-status-*     Semantic status colors (on/off/warn/error)
+───────────────────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* ── Card / Glass ──────────────────────────────────────────────────────
+     Split into "primitive" tokens so individual dimensions can be
+     overridden independently (e.g. the user adjusts opacity without
+     changing the theme's base color).
+  ──────────────────────────────────────────────────────────────────────── */
+
+  /* Base card color as separate R,G,B so rgba() can use a variable alpha */
+  --hb-card-bg-rgb:    255, 255, 255;
+
+  /* Alpha (transparency) — user-adjustable slider in Settings */
+  --hb-card-opacity:   0.14;
+
+  /* Blur strength in px — user-adjustable slider in Settings */
+  --hb-card-blur-px:   24;
+
+  /* Saturation boost for the blur — theme-controlled */
+  --hb-card-saturate:  1.6;
+
+  /* NOTE: --hb-card-bg and --hb-card-blur are intentionally NOT defined here.
+     They are written as computed literals by themes.ts via a <style> tag so
+     the injected values are always the sole source — no cascade conflict. */
+  --hb-card-border: rgba(255, 255, 255, 0.18);
+  --hb-card-border-width: 1px;
+  --hb-card-radius: 20px;  /* user-adjustable slider in Settings */
+  --hb-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+
+  /* ── Typography ────────────────────────────────────────────────────── */
+  --hb-text-primary:   #ffffff;
+  --hb-text-secondary: rgba(255, 255, 255, 0.65);
+  --hb-text-dim:       rgba(255, 255, 255, 0.55);
+
+  /* ── Accent color ──────────────────────────────────────────────────── */
+  /* Split into hex (for color pickers) + rgb components (for opacity variants) */
+  --hb-accent:         #5ac8fa;
+  --hb-accent-rgb:     90, 200, 250;
+  --hb-accent-dim:     rgba(var(--hb-accent-rgb), 0.20);
+
+  /* ── Status colors ─────────────────────────────────────────────────── */
+  --hb-status-on:      #34c759;
+  --hb-status-on-rgb:  52, 199, 89;               /* for rgba(var(--hb-status-on-rgb), 0.4) use */
+  --hb-status-off:     rgba(255, 255, 255, 0.20);
+  --hb-status-caution: #ffd60a;                   /* yellow: in-progress / moving states */
+  --hb-status-warning: #ff9f0a;
+  --hb-status-error:   #ff3b30;
+
+  /* ── Extended text levels ──────────────────────────────────────────── */
+  /* text-secondary (0.65) and text-dim (0.55) already defined above     */
+  --hb-text-prominent: rgba(255, 255, 255, 0.80);  /* active labels, button text, 0.75–0.85 range */
+  --hb-text-muted:     rgba(255, 255, 255, 0.40);  /* unavailable, off-state */
+  --hb-text-faint:     rgba(255, 255, 255, 0.35);  /* timestamps, footnotes  */
+
+  /* ── Interactive surfaces ──────────────────────────────────────────── */
+  --hb-surface-1:          rgba(255, 255, 255, 0.08);  /* subtle bg, art placeholder */
+  --hb-surface-2:          rgba(255, 255, 255, 0.12);  /* progress tracks            */
+  --hb-surface-btn:        rgba(255, 255, 255, 0.10);  /* button resting state       */
+  --hb-surface-btn-hover:  rgba(255, 255, 255, 0.18);  /* button hover               */
+  --hb-surface-btn-active: rgba(255, 255, 255, 0.28);  /* button press               */
+  --hb-surface-input:      rgba(255, 255, 255, 0.10);  /* input fields               */
+  --hb-surface-track:      rgba(255, 255, 255, 0.20);  /* slider & progress tracks   */
+
+  /* ── Dividers ──────────────────────────────────────────────────────── */
+  --hb-divider:        rgba(255, 255, 255, 0.06);  /* row separators   */
+  --hb-divider-strong: rgba(255, 255, 255, 0.10);  /* section dividers */
+
+  /* ── Typography scale ──────────────────────────────────────────────── */
+  --hb-font-size-2xs:  9px;
+  --hb-font-size-xs:   11px;
+  --hb-font-size-sm:   13px;
+  --hb-font-size-md:   14px;
+  --hb-font-size-base: 16px;
+  --hb-font-size-lg:   20px;
+  --hb-font-size-xl:   22px;
+  --hb-font-size-2xl:  28px;
+  --hb-font-size-3xl:  34px;
+  --hb-font-size-4xl:  44px;
+  --hb-font-size-hero: 48px;
+
+  --hb-font-weight-thin:     200;
+  --hb-font-weight-light:    300;
+  --hb-font-weight-regular:  400;
+  --hb-font-weight-medium:   500;
+  --hb-font-weight-semibold: 600;
+  --hb-font-weight-bold:     700;
+
+  /* ── Spacing scale ─────────────────────────────────────────────────── */
+  --hb-space-1:  4px;
+  --hb-space-2:  6px;
+  --hb-space-3:  8px;
+  --hb-space-4:  10px;
+  --hb-space-5:  12px;
+  --hb-space-6:  14px;
+  --hb-space-7:  16px;
+  --hb-space-8:  20px;
+  --hb-space-9:  24px;
+  --hb-space-10: 32px;
+
+  /* ── Border radius ─────────────────────────────────────────────────── */
+  --hb-radius-sm:   6px;     /* badges, small elements */
+  --hb-radius-md:   10px;    /* buttons, inputs        */
+  --hb-radius-lg:   14px;    /* larger containers      */
+  --hb-radius-pill: 9999px;  /* toggles, pill buttons  */
+  /* --hb-card-radius (20px) already defined above     */
+
+  /* ── Motion ────────────────────────────────────────────────────────── */
+  --hb-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --hb-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --hb-duration-fast:   0.15s;
+  --hb-duration-normal: 0.25s;
+  --hb-duration-slow:   0.4s;
+}
+
+/* ── Base card class ───────────────────────────────────────────────────
+   Use className="hb-card" in new components.
+   The legacy .glass-card is aliased in glass.css via compat vars.
+──────────────────────────────────────────────────────────────────────── */
+.hb-card {
+  background: var(--hb-card-bg, rgba(255, 255, 255, 0.14));
+  -webkit-backdrop-filter: var(--hb-card-blur, blur(24px) saturate(1.6));
+  backdrop-filter: var(--hb-card-blur, blur(24px) saturate(1.6));
+  border: var(--hb-card-border-width, 1px) solid var(--hb-card-border);
+  border-radius: var(--hb-card-radius);
+  box-shadow: var(--hb-card-shadow);
+  padding: 14px 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--hb-text-primary);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hb-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.hb-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--hb-text-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hb-card__value {
+  font-size: 48px;
+  font-weight: 200;
+  color: var(--hb-text-primary);
+  line-height: 1;
+}
+
+.hb-card__value--large {
+  font-size: 34px;
+  font-weight: 300;
+}
+
+.hb-card__unit {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--hb-text-secondary);
+  margin-left: 3px;
+}
+
+.hb-card__sub {
+  font-size: 12px;
+  color: var(--hb-text-secondary);
+  margin-top: auto;
+  padding-top: 8px;
+}

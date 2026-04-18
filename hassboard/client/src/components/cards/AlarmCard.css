@@ -1,0 +1,118 @@
+.alarm-card {
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.alarm-status {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  padding: 8px 0 4px;
+}
+
+.alarm-green  { color: var(--hb-status-on); }
+.alarm-red    { color: var(--hb-status-error); }
+.alarm-yellow { color: var(--hb-status-caution); }
+
+.alarm-pulse {
+  animation: alarm-blink 1s ease-in-out infinite;
+}
+
+@keyframes alarm-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+.alarm-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.alarm-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 6px;
+  border-radius: 10px;
+  background: var(--hb-surface-btn);
+  border: 1px solid var(--hb-surface-btn-hover);
+  color: var(--hb-text-prominent);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--hb-duration-fast);
+  white-space: nowrap;
+}
+
+.alarm-btn:hover { background: var(--hb-surface-btn-hover); }
+
+.alarm-btn-disarm {
+  border-color: rgba(var(--hb-status-on-rgb), 0.4);
+  color: var(--hb-status-on);
+}
+
+.alarm-pin-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 20, 50, 0.92);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--hb-card-radius);
+}
+
+.alarm-pin-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80%;
+}
+
+.alarm-pin-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hb-text-secondary);
+  text-align: center;
+}
+
+.alarm-pin-input {
+  background: var(--hb-surface-btn);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--hb-text-primary);
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 6px;
+  outline: none;
+  width: 100%;
+}
+
+.alarm-pin-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.alarm-pin-cancel, .alarm-pin-ok {
+  flex: 1;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.alarm-pin-cancel {
+  background: var(--hb-surface-1);
+  border-color: var(--hb-surface-btn);
+  color: var(--hb-text-secondary);
+}
+
+.alarm-pin-ok {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a2744;
+}

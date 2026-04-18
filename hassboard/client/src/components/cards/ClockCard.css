@@ -1,0 +1,33 @@
+.clock-card {
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.clock-time {
+  display: flex;
+  align-items: baseline;
+}
+
+.clock-hm {
+  font-weight: 200;
+  color: var(--hb-text-primary);
+  line-height: 1;
+}
+
+.clock-sec {
+  font-weight: 200;
+  color: var(--hb-text-secondary);
+  align-self: flex-end;
+}
+
+.clock-ampm {
+  font-weight: 400;
+  color: var(--hb-text-secondary);
+  align-self: flex-end;
+}
+
+.clock-date {
+  font-weight: 400;
+  color: var(--hb-text-dim);
+}

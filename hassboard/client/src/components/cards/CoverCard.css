@@ -1,0 +1,68 @@
+.cover-card {
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.cover-pos-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cover-pos-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 6px;
+  background: var(--hb-surface-2);
+  overflow: hidden;
+}
+
+.cover-pos-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.75);
+  transition: width 0.4s ease;
+}
+
+.cover-pos-fill.moving {
+  background: var(--hb-status-caution);
+  animation: cover-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes cover-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.cover-pos-text {
+  font-size: 12px;
+  color: var(--hb-text-dim);
+  min-width: 40px;
+  text-align: right;
+}
+
+.cover-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.cover-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--hb-surface-btn);
+  border: 1px solid var(--hb-surface-btn-hover);
+  color: var(--hb-text-primary);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background var(--hb-duration-fast), transform 0.1s;
+}
+
+.cover-btn:hover { background: var(--hb-surface-btn-hover); }
+.cover-btn:active { transform: scale(0.92); background: var(--hb-surface-btn-active); }
+
+.cover-btn-stop {
+  font-size: 13px;
+  color: rgba(255, 200, 100, 0.9);
+}

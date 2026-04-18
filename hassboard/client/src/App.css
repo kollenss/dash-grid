@@ -1,0 +1,143 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  height: 52px;
+}
+
+.app-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ha-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ha-dot.missing {
+  background: #ff9f0a;
+  box-shadow: 0 0 6px #ff9f0a88;
+  cursor: help;
+}
+
+.header-link {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.15s;
+}
+
+.header-link:hover {
+  color: #fff;
+}
+
+.edit-mode-btn {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.edit-mode-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.edit-mode-btn.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.zoom-slider-label {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  user-select: none;
+}
+
+@media (max-width: 1024px) {
+  .zoom-slider-label {
+    display: flex;
+  }
+}
+
+.zoom-slider {
+  width: 80px;
+  accent-color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+.zoom-value {
+  min-width: 32px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.app-main {
+  flex: 1;
+  overflow: hidden;
+}
+
+.app-main--scrollable {
+  overflow-y: auto;
+}
+
+.loading-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 15px;
+}
+
+/* ── Neutral chrome theme — settings page & modals ──────────────────────────
+   Applied as a scoped class so dashboard theming doesn't bleed into chrome UI.
+   Overrides :root custom properties via cascade for all descendant elements.  */
+.hb-chrome {
+  --hb-card-bg: rgba(18, 18, 26, 0.90);
+  --hb-card-blur: blur(16px) saturate(1.2);
+  --hb-card-border: rgba(255, 255, 255, 0.12);
+  --hb-card-border-width: 1px;
+  --hb-card-radius: 20px;
+  --hb-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --hb-modal-bg: rgba(13, 13, 20, 0.97);
+  --hb-accent: #5ac8fa;
+  --hb-accent-rgb: 90, 200, 250;
+  --hb-accent-dim: rgba(90, 200, 250, 0.2);
+  --hb-text-primary: #ffffff;
+  --hb-text-secondary: rgba(255, 255, 255, 0.65);
+  --hb-text-dim: rgba(255, 255, 255, 0.45);
+  --hb-status-on: #34c759;
+  --hb-status-off: rgba(255, 255, 255, 0.25);
+  --hb-status-warning: #ff9f0a;
+  --hb-status-error: #ff3b30;
+}

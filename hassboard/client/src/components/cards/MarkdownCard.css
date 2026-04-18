@@ -1,0 +1,30 @@
+.markdown-card {
+  overflow-y: auto;
+}
+
+.markdown-body {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.82);
+  flex: 1;
+  overflow-y: auto;
+}
+
+.markdown-body p    { margin: 0 0 8px; }
+.markdown-body p:last-child { margin-bottom: 0; }
+.markdown-body h1   { font-size: 20px; font-weight: 500; margin: 0 0 8px; color: #fff; }
+.markdown-body h2   { font-size: 16px; font-weight: 500; margin: 0 0 6px; color: #fff; }
+.markdown-body h3   { font-size: 14px; font-weight: 600; margin: 0 0 4px; color: rgba(255,255,255,0.9); }
+.markdown-body strong { font-weight: 600; color: #fff; }
+.markdown-body em   { font-style: italic; }
+.markdown-body code {
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.12);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+.markdown-body a    { color: #5ac8fa; text-decoration: none; }
+.markdown-body a:hover { text-decoration: underline; }
+.markdown-body ul   { margin: 0 0 8px; padding-left: 18px; }
+.markdown-body li   { margin-bottom: 2px; }

@@ -1,0 +1,58 @@
+.climate-card {
+  gap: 6px;
+}
+
+.climate-current {
+  display: flex;
+  align-items: baseline;
+  padding-top: 4px;
+}
+
+.climate-mode {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+
+.climate-target-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.climate-target {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--hb-text-prominent);
+  min-width: 60px;
+  text-align: center;
+}
+
+.climate-adj-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--hb-surface-btn);
+  border: 1px solid var(--hb-surface-btn-hover);
+  color: var(--hb-text-primary);
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--hb-duration-fast);
+  flex-shrink: 0;
+}
+
+.climate-adj-btn:hover {
+  background: var(--hb-surface-btn-hover);
+}
+
+.climate-adj-btn:active {
+  background: var(--hb-surface-btn-active);
+  transform: scale(0.92);
+}

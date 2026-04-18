@@ -1,0 +1,247 @@
+.pg-root {
+  display: flex;
+  gap: 24px;
+  height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* ── List ─────────────────────────────────────────────── */
+
+.pg-list {
+  flex: 0 0 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.pg-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.pg-filter-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--hb-card-border);
+  background: transparent;
+  color: var(--hb-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.pg-filter-btn.active {
+  background: var(--hb-accent);
+  border-color: var(--hb-accent);
+  color: #fff;
+}
+
+.pg-loading,
+.pg-empty {
+  color: var(--hb-text-dim);
+  font-size: 14px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.pg-error {
+  background: rgba(255, 69, 58, 0.12);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--hb-status-error);
+  line-height: 1.5;
+}
+
+.pg-card {
+  background: var(--hb-card-bg);
+  border: 1px solid var(--hb-card-border);
+  border-radius: var(--hb-card-radius);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.pg-card:hover {
+  border-color: var(--hb-accent);
+}
+
+.pg-card--selected {
+  border-color: var(--hb-accent);
+  background: color-mix(in srgb, var(--hb-accent) 8%, var(--hb-card-bg));
+}
+
+.pg-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.pg-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--hb-text-primary);
+  flex: 1;
+}
+
+.pg-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.pg-badge--installed {
+  background: rgba(52, 199, 89, 0.15);
+  color: var(--hb-status-on);
+}
+
+.pg-badge--update {
+  background: rgba(255, 159, 10, 0.15);
+  color: var(--hb-status-warning);
+}
+
+.pg-card-desc {
+  font-size: 13px;
+  color: var(--hb-text-secondary);
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.pg-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pg-card-meta {
+  font-size: 11px;
+  color: var(--hb-text-dim);
+  flex: 1;
+}
+
+.pg-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.pg-tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  color: var(--hb-text-dim);
+}
+
+.pg-action-btn {
+  padding: 5px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--hb-accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.pg-action-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pg-action-btn--uninstall {
+  background: transparent;
+  border: 1px solid var(--hb-card-border);
+  color: var(--hb-text-secondary);
+}
+
+/* ── Detail panel ─────────────────────────────────────── */
+
+.pg-detail {
+  flex: 1;
+  background: var(--hb-card-bg);
+  border: 1px solid var(--hb-card-border);
+  border-radius: var(--hb-card-radius);
+  padding: 24px;
+  overflow-y: auto;
+  position: relative;
+  min-height: 0;
+}
+
+.pg-detail-placeholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hb-text-dim);
+  font-size: 14px;
+}
+
+.pg-detail-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--hb-text-dim);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.pg-screenshot {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid var(--hb-card-border);
+}
+
+.pg-detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--hb-text-primary);
+  margin: 0 0 8px;
+}
+
+.pg-detail-desc {
+  font-size: 14px;
+  color: var(--hb-text-secondary);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.pg-detail-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--hb-text-dim);
+  margin-bottom: 24px;
+}
+
+.pg-readme-loading {
+  color: var(--hb-text-dim);
+  font-size: 13px;
+}
+
+.pg-readme {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--hb-text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 16px;
+  line-height: 1.6;
+  margin: 0;
+}

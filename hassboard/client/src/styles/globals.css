@@ -1,0 +1,51 @@
+@import './design-system.css';
+
+:root {
+  --font: -apple-system, 'SF Pro Display', BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --grid-cols: 12;
+  --grid-gap: 12px;
+  --bg-day:   linear-gradient(180deg, #1a6ec8 0%, #2e8eea 50%, #63c0f5 100%);
+  --bg-night: linear-gradient(180deg, #0b1426 0%, #1a2744 55%, #0d2137 100%);
+
+  /* ── Backward-compat aliases ─────────────────────────────────────────
+     Static fallback values for any card CSS that still uses old names.
+     glass.css now uses --hb-* directly; these remain for other files.
+  ──────────────────────────────────────────────────────────────────── */
+  --color-text:     #ffffff;
+  --color-text-dim: rgba(255, 255, 255, 0.55);
+  --color-text-mid: rgba(255, 255, 255, 0.65);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: var(--font);
+  color: var(--hb-text-primary);
+  overflow: hidden;
+}
+
+body {
+  background: var(--hb-page-bg, var(--bg-night));
+  transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.day {
+  background: var(--bg-day);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

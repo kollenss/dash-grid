@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Database (contains user config — never commit)
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Installed plugin bundles (user-installed, not part of source)
+plugins/
+
+# Sensitive files
+HA_SERVER_REFERENCE.md
+västtrafik-accesstoken.txt
+.env
+.env.*
+
+# Reference material (not part of the project)
+ui-reference/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Claude Code project settings
+.claude/

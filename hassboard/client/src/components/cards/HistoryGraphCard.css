@@ -1,0 +1,84 @@
+.history-graph-card {
+  gap: 8px;
+}
+
+.hg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.hg-hours-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.hg-hours-btn {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--hb-card-border, rgba(255, 255, 255, 0.12));
+  color: var(--hb-text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.hg-hours-btn.active {
+  background: var(--hb-accent-dim);
+  border-color: var(--hb-accent);
+  color: var(--hb-accent);
+}
+
+.hg-body {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.hg-svg {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hg-axis-label {
+  font-size: 8px;
+  fill: var(--hb-text-dim);
+}
+
+.hg-peak-label {
+  font-size: 8px;
+  font-weight: 600;
+  fill: var(--hb-text-secondary);
+}
+
+.hg-yaxis {
+  width: 26px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.hg-yaxis-label {
+  position: absolute;
+  right: 4px;
+  transform: translateY(-50%);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  color: var(--hb-text-dim);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.hg-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--hb-text-dim);
+}

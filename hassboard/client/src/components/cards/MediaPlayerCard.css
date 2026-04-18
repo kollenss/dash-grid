@@ -1,0 +1,142 @@
+.media-card {
+  gap: 8px;
+}
+
+.media-main {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.media-art {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--hb-surface-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-art-placeholder {
+  font-size: 24px;
+}
+
+.media-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.media-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--hb-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-artist {
+  font-size: 11px;
+  color: var(--hb-text-dim);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-progress-track {
+  height: 3px;
+  border-radius: 3px;
+  background: var(--hb-surface-2);
+  overflow: hidden;
+}
+
+.media-progress-fill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  transition: width 1s linear;
+}
+
+.media-time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--hb-text-faint);
+}
+
+.media-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.media-btn {
+  font-size: 18px;
+  background: none;
+  border: none;
+  color: var(--hb-text-prominent);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color var(--hb-duration-fast), background var(--hb-duration-fast);
+}
+
+.media-btn:hover { color: var(--hb-text-primary); background: var(--hb-surface-1); }
+.media-btn:disabled { opacity: 0.3; cursor: default; }
+
+.media-btn-main {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--hb-surface-btn) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-vol-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media-vol-icon { font-size: 14px; }
+
+.media-vol-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--hb-surface-track);
+  outline: none;
+  cursor: pointer;
+}
+
+.media-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.media-vol-pct {
+  font-size: 10px;
+  color: var(--hb-text-muted);
+  min-width: 28px;
+  text-align: right;
+}

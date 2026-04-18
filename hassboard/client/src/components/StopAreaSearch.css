@@ -1,0 +1,52 @@
+.stop-search {
+  position: relative;
+  width: 100%;
+}
+
+.stop-search-gid {
+  font-size: 10px;
+  opacity: 0.4;
+  margin-top: 3px;
+  font-family: monospace;
+  padding-left: 2px;
+}
+
+.stop-search-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1e2230;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.stop-search-item {
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  transition: background 0.1s;
+}
+
+.stop-search-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.stop-search-item--selected {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.stop-search-loading {
+  padding: 8px 14px;
+  font-size: 12px;
+  opacity: 0.4;
+  cursor: default;
+}
