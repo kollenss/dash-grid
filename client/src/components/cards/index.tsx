@@ -25,8 +25,6 @@ import ClockCard         from './ClockCard'
 import GreetingCard      from './GreetingCard'
 import MarkdownCard      from './MarkdownCard'
 import IframeCard        from './IframeCard'
-import BusDeparturesCard from './BusDeparturesCard'
-import StopAreaSearch    from '../StopAreaSearch'
 
 // ─── ConfigUI components ───────────────────────────────────────────────────────
 // Rendered inside AddCardModal (step 2 — configuration).
@@ -161,37 +159,6 @@ function WeatherConfigUI({ config, onChange }: ConfigUIProps) {
       <input type="checkbox" checked={config.show_forecast !== false} onChange={e => onChange('show_forecast', e.target.checked)} />
       Show 5-day forecast
     </label>
-  )
-}
-
-function BusDeparturesConfigUI({ config, onChange }: ConfigUIProps) {
-  const warnEnabled = !!config.warn_minutes
-  return (
-    <>
-      <label className="modal-label">Hållplats
-        <StopAreaSearch
-          value={config.stop_area_gid ?? ''}
-          label={config.stop_area_name ?? ''}
-          onSelect={(gid, name) => { onChange('stop_area_gid', gid); onChange('stop_area_name', name) }}
-        />
-      </label>
-      <label className="modal-label">Antal avgångar
-        <input className="modal-input" type="number" min={1} max={20} value={config.limit ?? 8} onChange={e => onChange('limit', Number(e.target.value))} />
-      </label>
-      <label className="modal-label modal-label-check">
-        <input type="checkbox" checked={!!config.hide_now} onChange={e => onChange('hide_now', e.target.checked || undefined)} />
-        Dölj avgångar som redan avgått
-      </label>
-      <label className="modal-label modal-label-check">
-        <input type="checkbox" checked={warnEnabled} onChange={e => onChange('warn_minutes', e.target.checked ? 5 : undefined)} />
-        Varna när avgång är nära
-      </label>
-      {warnEnabled && (
-        <label className="modal-label">Varningsgräns (minuter)
-          <input className="modal-input" type="number" min={1} max={60} value={config.warn_minutes ?? 5} onChange={e => onChange('warn_minutes', Number(e.target.value))} />
-        </label>
-      )}
-    </>
   )
 }
 
@@ -351,32 +318,6 @@ registry.register({
   defaultDomains: ['alarm_control_panel'],
   component: AlarmCard,
   configUI: AlarmConfigUI,
-})
-
-registry.register({
-  type: 'bus_departures',
-  label: 'Departures',
-  icon: '🚌',
-  group: 'Transport',
-  defaultSize: [3, 4],
-  minSize: [1, 1],
-  needsEntity: false,
-  integrations: [
-    {
-      id: 'vasttrafik',
-      label: 'Västtrafik API',
-      testEndpoint: '/api/vasttrafik/test',
-      helpText: 'Create an account and app at developer.vasttrafik.se. Copy all three values from your app page.',
-      required: true,
-      fields: [
-        { key: 'vasttrafik_client_id',     label: 'Client ID (Klientidentifierare)',         type: 'text'   },
-        { key: 'vasttrafik_client_secret', label: 'Client Secret (Hemlighet)',               type: 'secret' },
-        { key: 'vasttrafik_auth_key',      label: 'Authentication Key (Autentiseringsnyckel)', type: 'secret' },
-      ],
-    },
-  ],
-  component: BusDeparturesCard,
-  configUI: BusDeparturesConfigUI,
 })
 
 registry.register({
