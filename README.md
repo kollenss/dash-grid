@@ -125,7 +125,7 @@ Cards live in a separate repository: [dash-grid-cards](https://github.com/kollen
 
 Browse and install them from the **Cards** menu inside the app.
 
-Want to build your own? See [CARD_DEVELOPMENT.md](CARD_DEVELOPMENT.md) for the plugin API.
+Want to build your own? See [CARD_DEVELOPMENT.md](docs/CARD_DEVELOPMENT.md) for the plugin API.
 
 ---
 
