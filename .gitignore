@@ -14,8 +14,8 @@ data/
 # Installed plugin bundles (user-installed, not part of source)
 plugins/
 
-# Sensitive files
-HA_SERVER_REFERENCE.md
+# Sensitive files — put private docs in private/ folder
+private/
 västtrafik-accesstoken.txt
 .env
 .env.*
