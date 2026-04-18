@@ -1,7 +1,9 @@
 import Database from 'better-sqlite3'
 import path from 'path'
+import fs from 'fs'
 
 const dataDir = process.env.DATA_DIR ?? path.join(__dirname, '..', 'data')
+fs.mkdirSync(dataDir, { recursive: true })
 
 const db = new Database(path.join(dataDir, 'hassboard.db'))
 

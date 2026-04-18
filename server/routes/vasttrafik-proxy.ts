@@ -7,15 +7,13 @@ const VT_TOKEN = 'https://ext-api.vasttrafik.se/token'
 interface TokenCache { token: string; expiresAt: number }
 let cache: TokenCache | null = null
 
-function getCredentials(): { clientId: string; clientSecret: string; authKey: string } | null {
+function getCredentials(): { clientId: string; clientSecret: string } | null {
   const idRow     = db.prepare('SELECT value FROM settings WHERE key=?').get('vasttrafik_client_id')     as any
   const secretRow = db.prepare('SELECT value FROM settings WHERE key=?').get('vasttrafik_client_secret') as any
-  const keyRow    = db.prepare('SELECT value FROM settings WHERE key=?').get('vasttrafik_auth_key')      as any
   const clientId     = idRow?.value?.trim()
   const clientSecret = secretRow?.value?.trim()
-  const authKey      = keyRow?.value?.trim()
-  if (!clientId || !clientSecret || !authKey) return null
-  return { clientId, clientSecret, authKey }
+  if (!clientId || !clientSecret) return null
+  return { clientId, clientSecret }
 }
 
 async function getAccessToken(): Promise<string> {
@@ -24,20 +22,14 @@ async function getAccessToken(): Promise<string> {
   const creds = getCredentials()
   if (!creds) throw new Error('Västtrafik credentials not configured')
 
-  // Send credentials both as Basic auth AND in request body (servers differ)
-  const body = new URLSearchParams({
-    grant_type: 'client_credentials',
-    client_id: creds.clientId,
-    client_secret: creds.clientSecret,
-  })
-
+  const basicAuth = Buffer.from(`${creds.clientId}:${creds.clientSecret}`).toString('base64')
   const res = await fetch(VT_TOKEN, {
     method: 'POST',
     headers: {
-      Authorization: `Basic ${creds.authKey}`,
+      Authorization: `Basic ${basicAuth}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: body.toString(),
+    body: 'grant_type=client_credentials',
   })
 
   if (!res.ok) {
@@ -98,6 +90,9 @@ export const vasttrafikProxyRoutes: FastifyPluginAsync = async (app) => {
     }
 
     const { stopAreaGid } = req.params
+    if (!stopAreaGid || stopAreaGid === 'undefined')
+      return reply.code(400).send({ error: 'stopAreaGid is required' })
+
     const limit = (req.query as any).limit ?? '10'
     const timeSpan = (req.query as any).timeSpanInMinutes ?? '60'
     const startDateTime = (req.query as any).startDateTime

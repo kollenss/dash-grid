@@ -7,6 +7,7 @@ import App from './App'
 
 // Expose for plugin cards loaded via dynamic import
 ;(window as any).__dashgrid = { React, registry }
+;(window as any).React = React  // legacy JSX transform requires global React
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

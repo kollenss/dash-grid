@@ -100,6 +100,7 @@ export const pluginRoutes: FastifyPluginAsync = async (app) => {
     const { id } = req.params
     const file = path.join(PLUGINS_DIR, `${id}.js`)
     if (fs.existsSync(file)) fs.unlinkSync(file)
+    db.prepare('DELETE FROM cards WHERE type=?').run(id)
     db.prepare('DELETE FROM plugins WHERE id=?').run(id)
     return { ok: true }
   })

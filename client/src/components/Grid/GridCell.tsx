@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { registry } from '../../core/CardRegistry'
 import { useCore } from '../../core/useCore'
 import { CardConfig } from '../../types'
+import CardErrorBoundary from './CardErrorBoundary'
 import './GridCell.css'
 
 // Måste matcha konstanter i Grid.tsx och Grid.css
@@ -156,7 +157,11 @@ export default function GridCell({
       )
     }
     const Component = def.component
-    return <Component config={cfg} state={state} states={states} integrations={integrations} colSpan={activeColSpan} rowSpan={activeRowSpan} />
+    return (
+      <CardErrorBoundary cardType={card.type}>
+        <Component config={cfg} state={state} states={states} integrations={integrations} colSpan={activeColSpan} rowSpan={activeRowSpan} />
+      </CardErrorBoundary>
+    )
   }
 
   const cellClass = [

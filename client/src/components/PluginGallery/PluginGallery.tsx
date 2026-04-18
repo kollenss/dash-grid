@@ -74,6 +74,9 @@ export default function PluginGallery() {
         body: JSON.stringify({ id: card.id }),
       })
       if (!res.ok) throw new Error((await res.json()).error)
+      await import(`/plugins/${card.id}.js`).catch(e =>
+        console.warn(`[Dash Grid] Failed to load plugin '${card.id}':`, e)
+      )
       setInstalled(s => new Set([...s, card.id]))
       setVersions(v => ({ ...v, [card.id]: card.version }))
       setBusy(b => ({ ...b, [card.id]: 'idle' }))
@@ -87,8 +90,7 @@ export default function PluginGallery() {
     setBusy(b => ({ ...b, [card.id]: 'uninstalling' }))
     try {
       await fetch(`/api/plugins/${card.id}/uninstall`, { method: 'DELETE' })
-      setInstalled(s => { const n = new Set(s); n.delete(card.id); return n })
-      setBusy(b => ({ ...b, [card.id]: 'idle' }))
+      window.location.reload()
     } catch {
       setBusy(b => ({ ...b, [card.id]: 'error' }))
       setTimeout(() => setBusy(b => ({ ...b, [card.id]: 'idle' })), 3000)
