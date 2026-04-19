@@ -7,7 +7,7 @@ import { configRoutes } from './routes/config'
 import { haProxyRoutes } from './routes/ha-proxy'
 import { vasttrafikProxyRoutes } from './routes/vasttrafik-proxy'
 import { backgroundRoutes } from './routes/backgrounds'
-import { pluginRoutes } from './routes/plugins'
+import { pluginRoutes, loadInstalledPluginServers } from './routes/plugins'
 import { setupHAWebSocket } from './routes/ha-ws'
 import './db' // init DB on startup
 
@@ -23,6 +23,9 @@ async function main() {
   await app.register(vasttrafikProxyRoutes, { prefix: '/api/vasttrafik' })
   await app.register(backgroundRoutes, { prefix: '/api' })
   await app.register(pluginRoutes)
+
+  // Load server-side logic for already-installed plugins
+  await loadInstalledPluginServers()
 
   // Serve built SPA in production (only if dist/client exists)
   const distPath = path.join(__dirname, '..', 'dist', 'client')

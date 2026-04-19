@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify'
 import fs from 'fs'
 import path from 'path'
 import db from '../db'
+import { loadPluginServer, unloadPluginServer, dispatchPluginRequest } from '../pluginServerRegistry'
 
 const MANIFEST_URL = process.env.CARDS_MANIFEST_URL
   ?? 'https://raw.githubusercontent.com/kollenss/dash-grid-cards/main/manifest.json'
@@ -20,6 +21,7 @@ interface ManifestCard {
   tags: string[]
   requires?: string[]
   bundleUrl: string
+  serverBundleUrl?: string
   screenshotUrl?: string
   readmeUrl?: string
 }
@@ -41,6 +43,16 @@ async function fetchManifest(): Promise<Manifest> {
   return data
 }
 
+export async function loadInstalledPluginServers(): Promise<void> {
+  const plugins = db.prepare('SELECT id FROM plugins').all() as { id: string }[]
+  for (const { id } of plugins) {
+    const serverPath = path.join(PLUGINS_DIR, `${id}.server.js`)
+    if (fs.existsSync(serverPath)) {
+      await loadPluginServer(id, serverPath)
+    }
+  }
+}
+
 export const pluginRoutes: FastifyPluginAsync = async (app) => {
 
   // Serve compiled plugin bundles from plugins/ dir
@@ -52,6 +64,14 @@ export const pluginRoutes: FastifyPluginAsync = async (app) => {
     reply.header('Content-Type', 'application/javascript')
     reply.header('Cache-Control', 'no-cache')
     return reply.send(fs.createReadStream(filePath))
+  })
+
+  // Dispatch requests to plugin server routes: /api/plugins/:id/...
+  app.all<{ Params: { id: string; '*': string } }>('/api/plugins/:id/*', async (req, reply) => {
+    const { id } = req.params
+    const subPath = '/' + (req.params['*'] ?? '')
+    const handled = await dispatchPluginRequest(id, subPath, req, reply)
+    if (!handled) return reply.code(404).send({ error: `No plugin route: ${req.method} ${subPath}` })
   })
 
   // Fetch and return manifest (cached 1h)
@@ -76,10 +96,22 @@ export const pluginRoutes: FastifyPluginAsync = async (app) => {
       const card = manifest.cards.find(c => c.id === id)
       if (!card) return reply.code(404).send({ error: `Card '${id}' not found in manifest` })
 
+      // Download client bundle
       const res = await fetch(card.bundleUrl)
       if (!res.ok) return reply.code(502).send({ error: `Bundle download failed: HTTP ${res.status}` })
-
       fs.writeFileSync(path.join(PLUGINS_DIR, `${id}.js`), await res.text())
+
+      // Download server bundle if available
+      if (card.serverBundleUrl) {
+        const serverRes = await fetch(card.serverBundleUrl)
+        if (serverRes.ok) {
+          const serverPath = path.join(PLUGINS_DIR, `${id}.server.js`)
+          fs.writeFileSync(serverPath, await serverRes.text())
+          await loadPluginServer(id, serverPath)
+        } else {
+          console.warn(`[plugins] Server bundle download failed for ${id}: HTTP ${serverRes.status}`)
+        }
+      }
 
       db.prepare(`
         INSERT INTO plugins (id, name, version, bundle_url, installed_at)
@@ -98,8 +130,13 @@ export const pluginRoutes: FastifyPluginAsync = async (app) => {
   // Uninstall a plugin
   app.delete<{ Params: { id: string } }>('/api/plugins/:id/uninstall', async (req, reply) => {
     const { id } = req.params
-    const file = path.join(PLUGINS_DIR, `${id}.js`)
-    if (fs.existsSync(file)) fs.unlinkSync(file)
+    const clientFile = path.join(PLUGINS_DIR, `${id}.js`)
+    const serverFile = path.join(PLUGINS_DIR, `${id}.server.js`)
+    if (fs.existsSync(clientFile)) fs.unlinkSync(clientFile)
+    if (fs.existsSync(serverFile)) {
+      fs.unlinkSync(serverFile)
+      unloadPluginServer(id)
+    }
     db.prepare('DELETE FROM cards WHERE type=?').run(id)
     db.prepare('DELETE FROM plugins WHERE id=?').run(id)
     return { ok: true }
