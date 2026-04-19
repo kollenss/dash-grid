@@ -87,7 +87,7 @@ export default function PluginGallery() {
         body: JSON.stringify({ id: card.id }),
       })
       if (!res.ok) throw new Error((await res.json()).error)
-      await import(`/plugins/${card.id}.js`).catch(e =>
+      await import(/* @vite-ignore */ `/plugins/${card.id}.js`).catch(e =>
         console.warn(`[Dash Grid] Failed to load plugin '${card.id}':`, e)
       )
       setInstalled(s => new Set([...s, card.id]))

@@ -47,7 +47,7 @@ function Dashboard() {
       try {
         const plugins: Array<{ id: string }> = await fetch('/api/plugins/installed').then(r => r.json())
         for (const p of plugins) {
-          try { await import(`/plugins/${p.id}.js`) }
+          try { await import(/* @vite-ignore */ `/plugins/${p.id}.js`) }
           catch (e) { console.warn(`[Dash Grid] Failed to load plugin '${p.id}':`, e) }
         }
       } catch (_) {}
