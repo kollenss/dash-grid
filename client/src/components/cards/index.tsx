@@ -73,6 +73,10 @@ function HistoryGraphConfigUI({ config, onChange }: ConfigUIProps) {
           <option value="sharp">Sharp — raw data</option>
         </select>
       </label>
+      <label className="modal-label modal-label-check">
+        <input type="checkbox" checked={config.show_current_value !== false} onChange={e => onChange('show_current_value', e.target.checked)} />
+        Show current value overlay
+      </label>
     </>
   )
 }

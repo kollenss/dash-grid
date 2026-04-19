@@ -11,6 +11,7 @@ interface Props {
     hours?: number
     line_style?: 'sharp' | 'crisp' | 'smooth' | 'peaks'
     smooth?: boolean   // legacy — superseded by line_style
+    show_current_value?: boolean
   }
   state?: HAState
 }
@@ -85,6 +86,8 @@ export default function HistoryGraphCard({ config, state }: Props) {
     ? config.entity_ids.slice(0, 3)
     : [config.entity_id]
   const label = config.title || entityIds[0]?.replace(/_/g, ' ') || 'Graf'
+
+  const showCurrentValue = config.show_current_value !== false
 
   // Derive line style — honour legacy `smooth` boolean for old saved cards
   const lineStyle = config.line_style ?? (config.smooth === false ? 'sharp' : 'smooth')
@@ -177,6 +180,17 @@ export default function HistoryGraphCard({ config, state }: Props) {
         ) : allVals.length === 0 ? (
           <div className="hg-loading">Ingen data</div>
         ) : (
+          <div className="hg-graph-wrap">
+          {showCurrentValue && state && (() => {
+            const raw = parseFloat(state.state)
+            const unit = (state.attributes as any)?.unit_of_measurement ?? ''
+            if (isNaN(raw)) return null
+            return (
+              <div className="hg-current-overlay">
+                {fmtVal(raw)}<span className="hg-current-unit">{unit}</span>
+              </div>
+            )
+          })()}
           <svg viewBox={`0 0 ${W} ${H}`} className="hg-svg" preserveAspectRatio="none">
             {/* Grid lines */}
             {[0, 0.25, 0.5, 0.75, 1].map(f => {
@@ -224,6 +238,7 @@ export default function HistoryGraphCard({ config, state }: Props) {
               return <text key={i} x={tick.x} y={H - 2} textAnchor={anchor} className="hg-axis-label">{tick.label}</text>
             })}
           </svg>
+          </div>
         )}
       </div>
     </div>

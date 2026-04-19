@@ -1,33 +1,150 @@
 .clock-card {
+  container-type: size;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+}
+
+.clock-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
+  padding: 12px 16px;
 }
 
-.clock-time {
-  display: flex;
-  align-items: baseline;
-}
-
+/* ── Time ──────────────────────────────────────────────── */
 .clock-hm {
   font-weight: 200;
+  font-size: clamp(2.5rem, 12vh, 6rem);
   color: var(--hb-text-primary);
+  letter-spacing: -0.03em;
   line-height: 1;
 }
 
-.clock-sec {
-  font-weight: 200;
-  color: var(--hb-text-secondary);
-  align-self: flex-end;
+@supports (font-size: 1cqh) {
+  .clock-hm { font-size: 58cqh; }
 }
 
-.clock-ampm {
-  font-weight: 400;
-  color: var(--hb-text-secondary);
-  align-self: flex-end;
+/* ── Side panel (date / ampm / sec) ────────────────────── */
+.clock-side {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .clock-date {
   font-weight: 400;
+  font-size: clamp(0.65rem, 2vh, 1rem);
   color: var(--hb-text-dim);
+  letter-spacing: 0.02em;
+}
+
+@supports (font-size: 1cqh) {
+  .clock-date { font-size: 16cqh; }
+}
+
+.clock-ampm {
+  font-weight: 400;
+  font-size: 0.7em;
+  color: var(--hb-text-dim);
+  letter-spacing: 0.05em;
+}
+
+.clock-sec {
+  font-weight: 200;
+  font-size: 0.7em;
+  color: var(--hb-text-dim);
+}
+
+/* ── 1-wide: hide seconds always ───────────────────────── */
+@container (max-width: 115px) {
+  .clock-sec { display: none; }
+}
+
+/* ── 1x1: hide ampm, fit time in card ──────────────────── */
+@container (max-width: 115px) and (max-height: 100px) {
+  .clock-ampm { display: none; }
+  .clock-hm { font-size: 1.4rem; }
+  .clock-layout { padding: 4px 8px; gap: 1px; }
+  .clock-date { font-size: 0.7rem; color: var(--hb-text-dim); }
+}
+
+@supports (font-size: 1cqh) {
+  @container (max-width: 115px) and (max-height: 100px) {
+    .clock-hm { font-size: 36cqw; }
+  }
+}
+
+/* ── 1x2+: same size as 1x1, ampm visible, stacked ─────── */
+@container (max-width: 115px) and (min-height: 110px) {
+  .clock-hm { font-size: 1.4rem; }
+  .clock-layout { padding: 4px 8px; gap: 1px; }
+  .clock-side { flex-direction: column; align-items: center; gap: 0; }
+  .clock-date { font-size: 0.7rem; color: var(--hb-text-primary); }
+  .clock-ampm { font-size: 0.6rem; color: var(--hb-text-primary); }
+}
+
+@supports (font-size: 1cqh) {
+  @container (max-width: 115px) and (min-height: 110px) {
+    .clock-hm { font-size: 36cqw; }
+  }
+}
+
+/* ── 2x2+: like 1x1 but bigger ─────────────────────────── */
+@container (min-width: 200px) and (min-height: 110px) {
+  .clock-ampm, .clock-sec { display: none; }
+  .clock-side { flex-direction: column; align-items: center; gap: 0; }
+}
+
+@supports (font-size: 1cqh) {
+  @container (min-width: 200px) and (min-height: 110px) {
+    .clock-hm   { font-size: 36cqw; }
+    .clock-date { font-size: 9cqw; }
+  }
+}
+
+/* ── 1-tall: side text uses primary color ──────────────── */
+@container (max-height: 100px) {
+  .clock-ampm,
+  .clock-date { color: var(--hb-text-primary); }
+}
+
+/* ── 2x1: time left, side column right ─────────────────── */
+@container (min-width: 200px) and (max-height: 100px) {
+  .clock-layout {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 16px;
+  }
+  .clock-side {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    max-width: 30cqw;
+  }
+  .clock-ampm {
+    font-size: 0.5em;
+    color: var(--hb-text-dim);
+    letter-spacing: 0.06em;
+  }
+  .clock-sec {
+    font-size: 0.5em;
+    color: var(--hb-text-dim);
+  }
+}
+
+@supports (font-size: 1cqh) {
+  @container (min-width: 200px) and (max-height: 100px) {
+    .clock-hm   { font-size: 72cqh; }
+    .clock-date { font-size: 14cqh; white-space: normal; line-height: 1.2; }
+    .clock-ampm { font-size: 12cqh; }
+    .clock-sec  { font-size: 12cqh; }
+  }
 }

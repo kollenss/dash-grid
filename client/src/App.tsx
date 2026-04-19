@@ -43,23 +43,23 @@ function Dashboard() {
   })
 
   useEffect(() => {
-    fetch(`/api/dashboards/${DASHBOARD_ID}/cards`)
-      .then(r => r.json())
-      .then(setCards)
-      .catch(() => {})
-    fetch('/api/dashboards')
-      .then(r => r.json())
-      .then((data: any[]) => { if (data[0]?.name) setBoardName(data[0].name) })
-      .catch(() => {})
-    // Load installed plugin cards before rendering
-    fetch('/api/plugins/installed')
-      .then(r => r.json())
-      .then(async (plugins: Array<{ id: string }>) => {
+    async function loadPluginsThenCards() {
+      try {
+        const plugins: Array<{ id: string }> = await fetch('/api/plugins/installed').then(r => r.json())
         for (const p of plugins) {
           try { await import(`/plugins/${p.id}.js`) }
           catch (e) { console.warn(`[Dash Grid] Failed to load plugin '${p.id}':`, e) }
         }
-      })
+      } catch (_) {}
+      fetch(`/api/dashboards/${DASHBOARD_ID}/cards`)
+        .then(r => r.json())
+        .then(setCards)
+        .catch(() => {})
+    }
+    loadPluginsThenCards()
+    fetch('/api/dashboards')
+      .then(r => r.json())
+      .then((data: any[]) => { if (data[0]?.name) setBoardName(data[0].name) })
       .catch(() => {})
 
     fetch('/api/settings')
