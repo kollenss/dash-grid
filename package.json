@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "dev:server": "tsx watch server/index.ts",
+    "dev:server": "tsx watch --ignore ./plugins --ignore ./data server/index.ts",
     "dev:client": "vite",
     "build": "vite build client --outDir ../dist",
     "start": "node dist/server/index.js"
