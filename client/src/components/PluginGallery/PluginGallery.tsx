@@ -7,6 +7,7 @@ interface ManifestCard {
   description: string
   author: string
   version: string
+  status?: 'stable' | 'preview'
   tags: string[]
   requires?: string[]
   screenshotUrl?: string
@@ -33,6 +34,7 @@ export default function PluginGallery() {
   const [manifestError, setManifestError] = useState<string | null>(null)
   const [loading, setLoading]     = useState(true)
   const [filter, setFilter]       = useState<'all' | 'installed'>('all')
+  const [showPreview, setShowPreview] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -57,7 +59,7 @@ export default function PluginGallery() {
         setInstalled(ids)
         setVersions(vers)
       } catch {
-        // installed list failing is non-fatal — gallery still usable
+        // non-fatal
       }
 
       setLoading(false)
@@ -111,9 +113,13 @@ export default function PluginGallery() {
   const hasUpdate = (card: ManifestCard) =>
     installed.has(card.id) && versions[card.id] && versions[card.id] !== card.version
 
-  const displayed = filter === 'installed'
-    ? cards.filter(c => installed.has(c.id))
-    : cards
+  const isPreview = (card: ManifestCard) => card.status === 'preview'
+
+  const displayed = cards.filter(c => {
+    if (filter === 'installed' && !installed.has(c.id)) return false
+    if (isPreview(c) && !showPreview) return false
+    return true
+  })
 
   if (loading) return <div className="pg-loading">Loading card registry…</div>
 
@@ -130,6 +136,11 @@ export default function PluginGallery() {
             className={`pg-filter-btn${filter === 'installed' ? ' active' : ''}`}
             onClick={() => setFilter('installed')}
           >Installed</button>
+          <button
+            className={`pg-preview-toggle${showPreview ? ' active' : ''}`}
+            onClick={() => setShowPreview(v => !v)}
+            title="Show cards under development"
+          >Preview</button>
         </div>
 
         {manifestError && (
@@ -149,15 +160,19 @@ export default function PluginGallery() {
           const state = busy[card.id] ?? 'idle'
           const isInstalled = installed.has(card.id)
           const updateAvailable = hasUpdate(card)
+          const preview = isPreview(card)
 
           return (
             <div
               key={card.id}
-              className={`pg-card${selected?.id === card.id ? ' pg-card--selected' : ''}`}
+              className={`pg-card${selected?.id === card.id ? ' pg-card--selected' : ''}${preview ? ' pg-card--preview' : ''}`}
               onClick={() => setSelected(card)}
             >
               <div className="pg-card-header">
                 <span className="pg-card-name">{card.name}</span>
+                {preview && (
+                  <span className="pg-badge pg-badge--preview">Preview</span>
+                )}
                 {isInstalled && !updateAvailable && (
                   <span className="pg-badge pg-badge--installed">Installed</span>
                 )}
@@ -197,6 +212,11 @@ export default function PluginGallery() {
               <img className="pg-screenshot" src={selected.screenshotUrl} alt={selected.name} />
             )}
             <h2 className="pg-detail-title">{selected.name}</h2>
+            {isPreview(selected) && (
+              <div className="pg-detail-preview-notice">
+                This card is in preview — it may change before stable release.
+              </div>
+            )}
             <p className="pg-detail-desc">{selected.description}</p>
             <div className="pg-detail-meta">
               <span>Version {selected.version}</span>

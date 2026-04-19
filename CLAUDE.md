@@ -1,5 +1,20 @@
 # Dash Grid — Claude instructions
 
+## Building a new card — START HERE
+
+**Always ask first:** "Should this be a built-in card or a community plugin?"
+
+| Built-in | Plugin |
+|----------|--------|
+| Core utility, used by everyone | Optional / niche, installable from gallery |
+| Add to `client/src/components/cards/` + register in `index.tsx` | Lives in `C:\Dev\dash-grid-cards\cards\` |
+| Ships with the app | Built as IIFE bundle, served from `plugins/` folder |
+
+**Full plugin development guide:** `C:\Dev\dash-grid-cards\CARD_DEV_GUIDE.md`
+This guide contains: file structure, vite config template, SDK types, design tokens, container query breakpoints, config UI patterns, local testing steps, and publishing checklist.
+
+**For built-in cards**, the same design rules apply — read `CARD_DEV_GUIDE.md` for the design system section, then implement directly in `client/src/components/cards/`.
+
 ## Development workflow
 
 Always edit files directly in this repo (`C:\Dev\hassDasboard`), never in worktrees.
