@@ -15,8 +15,7 @@ const registry = new Map<string, PluginRoute[]>()
 
 export async function loadPluginServer(pluginId: string, serverJsPath: string): Promise<void> {
   try {
-    // Append timestamp to bust Node's ESM module cache on reinstall
-    const url = pathToFileURL(serverJsPath).href + `?v=${Date.now()}`
+    const url = pathToFileURL(serverJsPath).href
     const mod = await import(url)
     const plugin: ServerPlugin = mod.default ?? mod
     registry.set(pluginId, plugin.routes ?? [])

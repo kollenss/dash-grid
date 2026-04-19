@@ -66,8 +66,8 @@ export const pluginRoutes: FastifyPluginAsync = async (app) => {
     return reply.send(fs.createReadStream(filePath))
   })
 
-  // Dispatch requests to plugin server routes: /api/plugins/:id/...
-  app.all<{ Params: { id: string; '*': string } }>('/api/plugins/:id/*', async (req, reply) => {
+  // Dispatch requests to plugin server routes — separate prefix avoids conflicts
+  app.all<{ Params: { id: string; '*': string } }>('/api/plugin-rpc/:id/*', async (req, reply) => {
     const { id } = req.params
     const subPath = '/' + (req.params['*'] ?? '')
     const handled = await dispatchPluginRequest(id, subPath, req, reply)
