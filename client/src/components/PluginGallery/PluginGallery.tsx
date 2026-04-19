@@ -117,7 +117,7 @@ export default function PluginGallery() {
 
   const displayed = cards.filter(c => {
     if (filter === 'installed' && !installed.has(c.id)) return false
-    if (isPreview(c) && !showPreview) return false
+    if (isPreview(c) && !showPreview && !installed.has(c.id)) return false
     return true
   })
 
