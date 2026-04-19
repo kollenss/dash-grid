@@ -35,23 +35,34 @@ export default function PluginGallery() {
   const [filter, setFilter]       = useState<'all' | 'installed'>('all')
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/plugins/manifest').then(r => r.json()),
-      fetch('/api/plugins/installed').then(r => r.json()),
-    ]).then(([manifest, inst]: [any, InstalledPlugin[]]) => {
-      if (manifest.error) {
-        setManifestError(manifest.error)
-      } else {
-        setCards(manifest.cards ?? [])
+    async function load() {
+      try {
+        const manifestRes = await fetch('/api/plugins/manifest')
+        const manifest = manifestRes.ok ? await manifestRes.json() : null
+        if (!manifest || manifest.error) {
+          setManifestError(manifest?.error ?? `HTTP ${manifestRes.status}`)
+        } else {
+          setCards(manifest.cards ?? [])
+        }
+      } catch (e: any) {
+        setManifestError(e.message)
       }
-      const ids = new Set(inst.map(p => p.id))
-      const vers: Record<string, string> = {}
-      inst.forEach(p => { vers[p.id] = p.version })
-      setInstalled(ids)
-      setVersions(vers)
-    }).catch(e => {
-      setManifestError(e.message)
-    }).finally(() => setLoading(false))
+
+      try {
+        const instRes = await fetch('/api/plugins/installed')
+        const inst: InstalledPlugin[] = instRes.ok ? await instRes.json() : []
+        const ids = new Set(inst.map(p => p.id))
+        const vers: Record<string, string> = {}
+        inst.forEach(p => { vers[p.id] = p.version })
+        setInstalled(ids)
+        setVersions(vers)
+      } catch {
+        // installed list failing is non-fatal — gallery still usable
+      }
+
+      setLoading(false)
+    }
+    load()
   }, [])
 
   useEffect(() => {
@@ -90,7 +101,7 @@ export default function PluginGallery() {
     setBusy(b => ({ ...b, [card.id]: 'uninstalling' }))
     try {
       await fetch(`/api/plugins/${card.id}/uninstall`, { method: 'DELETE' })
-      window.location.reload()
+      setTimeout(() => window.location.reload(), 300)
     } catch {
       setBusy(b => ({ ...b, [card.id]: 'error' }))
       setTimeout(() => setBusy(b => ({ ...b, [card.id]: 'idle' })), 3000)
