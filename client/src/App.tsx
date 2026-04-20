@@ -45,9 +45,9 @@ function Dashboard() {
   useEffect(() => {
     async function loadPluginsThenCards() {
       try {
-        const plugins: Array<{ id: string }> = await fetch('/api/plugins/installed').then(r => r.json())
+        const plugins: Array<{ id: string; version: string }> = await fetch('/api/plugins/installed').then(r => r.json())
         for (const p of plugins) {
-          try { await import(/* @vite-ignore */ `/plugins/${p.id}.js`) }
+          try { await import(/* @vite-ignore */ `/plugins/${p.id}.js?t=${Date.now()}`) }
           catch (e) { console.warn(`[Dash Grid] Failed to load plugin '${p.id}':`, e) }
         }
       } catch (_) {}

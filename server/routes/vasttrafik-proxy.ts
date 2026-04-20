@@ -81,6 +81,29 @@ export const vasttrafikProxyRoutes: FastifyPluginAsync = async (app) => {
   })
 
   app.get<{
+    Params: { stopAreaGid: string; detailsReference: string }
+  }>('/departure-details/:stopAreaGid/:detailsReference', async (req, reply) => {
+    let token: string
+    try { token = await getAccessToken() } catch (e: any) {
+      return reply.code(503).send({ error: e.message })
+    }
+
+    const { stopAreaGid, detailsReference } = req.params
+    const url = `${VT_BASE}/stop-areas/${stopAreaGid}/departures/${encodeURIComponent(detailsReference)}/details?includes=servicejourneycalls`
+
+    try {
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' }
+      })
+      reply.code(res.status)
+      return res.json()
+    } catch (e: any) {
+      reply.code(503)
+      return { error: e.message }
+    }
+  })
+
+  app.get<{
     Params: { stopAreaGid: string }
     Querystring: { limit?: string; timeSpanInMinutes?: string }
   }>('/departures/:stopAreaGid', async (req, reply) => {

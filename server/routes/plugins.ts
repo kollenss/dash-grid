@@ -62,7 +62,7 @@ export const pluginRoutes: FastifyPluginAsync = async (app) => {
     const filePath = path.join(PLUGINS_DIR, file)
     if (!fs.existsSync(filePath)) return reply.code(404).send({ error: 'Plugin not found' })
     reply.header('Content-Type', 'application/javascript')
-    reply.header('Cache-Control', 'no-cache')
+    reply.header('Cache-Control', 'no-store')
     return reply.send(fs.createReadStream(filePath))
   })
 
