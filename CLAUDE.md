@@ -15,6 +15,22 @@ This guide contains: file structure, vite config template, SDK types, design tok
 
 **For built-in cards**, the same design rules apply — read `CARD_DEV_GUIDE.md` for the design system section, then implement directly in `client/src/components/cards/`.
 
+## Editing an existing plugin card
+
+Plugin source lives in `C:\Dev\dash-grid-cards\cards\<id>\src\` — **not** in this repo.
+Backend server routes (proxies etc.) always live in `server/routes/` in this repo.
+
+**Step-by-step:**
+1. Edit source in `C:\Dev\dash-grid-cards\cards\<id>\src\`
+2. Build + copy in one line:
+   ```
+   cd C:\Dev\dash-grid-cards\cards\<id> && npm run build && cp dist/card.js C:\Dev\hassDasboard\plugins\<id>.js
+   ```
+3. Reload the browser (F5) — cache busting is already handled (`no-store` + `?t=Date.now()`)
+4. When done: bump version in `cards/<id>/package.json` and `manifest.json`, update README, then push both repos
+
+**Known plugins:** `avgangstavlan`, `google-calendar`, `chalkboard`
+
 ## Development workflow
 
 Always edit files directly in this repo (`C:\Dev\hassDasboard`), never in worktrees.
