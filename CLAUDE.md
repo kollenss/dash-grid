@@ -53,6 +53,13 @@ Push to remote when a feature is done.
 | `client/src/styles/design-system.css` | All CSS tokens (`--hb-*`) |
 | `client/src/styles/globals.css` | `--font: -apple-system, 'SF Pro Display', ...` |
 | `server/index.ts` | Fastify entry, plugin server registry |
+| `client/src/lib/mdiIcons.tsx` | MDI icon component + domain→icon/color lookup (used by Button+) |
+
+## Complex built-in cards — extended docs
+
+| Card | Doc |
+|------|-----|
+| Button+ (`button_plus`) | `docs/BUTTON_PLUS.md` — architecture, domain matrix, CSS vars, roadmap |
 
 ## Design tokens (most used)
 

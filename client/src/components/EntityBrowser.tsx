@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import './EntityBrowser.css'
 import { HAState } from '../types'
 
@@ -51,21 +51,25 @@ export default function EntityBrowser({ onSelect, onClose, domains }: Props) {
       .finally(() => setLoading(false))
   }, [])
 
-  const filtered = query.trim()
-    ? allStates.filter(s => {
-        const q = query.toLowerCase()
-        const name = (s.attributes?.friendly_name ?? '').toLowerCase()
-        return s.entity_id.toLowerCase().includes(q) || name.includes(q)
-      })
-    : allStates
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return allStates
+    return allStates.filter(s => {
+      const name = (s.attributes?.friendly_name ?? '').toLowerCase()
+      return s.entity_id.toLowerCase().includes(q) || name.includes(q)
+    })
+  }, [query, allStates])
 
   // Group by domain
-  const groups: Record<string, HAState[]> = {}
-  for (const s of filtered) {
-    const d = getDomain(s.entity_id)
-    if (!groups[d]) groups[d] = []
-    groups[d].push(s)
-  }
+  const groups = useMemo(() => {
+    const g: Record<string, HAState[]> = {}
+    for (const s of filtered) {
+      const d = getDomain(s.entity_id)
+      if (!g[d]) g[d] = []
+      g[d].push(s)
+    }
+    return g
+  }, [filtered])
 
   return (
     <div className="eb-backdrop" onClick={onClose}>

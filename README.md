@@ -42,6 +42,14 @@ Browse and install community cards without leaving the app.
 
 ![One-click card install and config](docs/screenshots/card-config.png)
 
+### Button+ Card
+
+The flagship card. Point it at any Home Assistant entity and it figures out the rest — slider for lights and fans, play/pause for media players, live sparkline for sensors. The ambient animation adapts to the entity type: electricity sensors pulse with a flowing blue-white glow, wind sensors trail particle streaks along the wave, battery sensors shift from green to red as they drain. Everything is proportional to the actual value, so a device drawing 300 W glows and flows noticeably faster than one at 50 W — lively enough to feel alive, calm enough to leave on a wall display all day.
+
+![Button+ cards with electricity animation](docs/screenshots/button-plus.png)
+
+Drag across a card to scrub its history. The dot tracks the sparkline and shows the exact value at that moment in time.
+
 ### Home Assistant Integration
 
 Search entities, pick a card type, done.

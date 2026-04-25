@@ -50,11 +50,15 @@ export const haProxyRoutes: FastifyPluginAsync = async (app) => {
     const hours = parseInt((req.query as any).hours ?? '24', 10)
     const start = new Date(Date.now() - hours * 3600 * 1000).toISOString()
     const url = `${haUrl}/api/history/period/${start}?filter_entity_id=${req.params.entityId}&minimal_response=true&no_attributes=true`
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), 25000)
     try {
-      const res = await fetch(url, { headers: haHeaders(haToken) })
+      const res = await fetch(url, { headers: haHeaders(haToken), signal: controller.signal })
+      clearTimeout(timer)
       reply.code(res.status)
       return res.json()
     } catch (e: any) {
+      clearTimeout(timer)
       reply.code(503)
       return { error: e.message }
     }

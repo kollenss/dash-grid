@@ -25,6 +25,7 @@ import ClockCard         from './ClockCard'
 import GreetingCard      from './GreetingCard'
 import MarkdownCard      from './MarkdownCard'
 import IframeCard        from './IframeCard'
+import ButtonPlusCard   from './ButtonPlusCard'
 
 // ─── ConfigUI components ───────────────────────────────────────────────────────
 // Rendered inside AddCardModal (step 2 — configuration).
@@ -163,6 +164,67 @@ function WeatherConfigUI({ config, onChange }: ConfigUIProps) {
       <input type="checkbox" checked={config.show_forecast !== false} onChange={e => onChange('show_forecast', e.target.checked)} />
       Show 5-day forecast
     </label>
+  )
+}
+
+function ButtonPlusConfigUI({ config, onChange }: ConfigUIProps) {
+  return (
+    <>
+      <label className="modal-label">Icon (mdi:fan, mdi:lightbulb …)
+        <input
+          className="modal-input"
+          value={config.icon ?? ''}
+          onChange={e => onChange('icon', e.target.value)}
+          placeholder="auto"
+        />
+      </label>
+      <label className="modal-label modal-label-check">
+        <input
+          type="checkbox"
+          checked={config.show_histogram !== false}
+          onChange={e => onChange('show_histogram', e.target.checked)}
+        />
+        Show history sparkline
+      </label>
+      {config.show_histogram !== false && (
+        <label className="modal-label">History period
+          <select
+            className="modal-input"
+            value={config.history_hours ?? 6}
+            onChange={e => onChange('history_hours', Number(e.target.value))}
+          >
+            <option value={1}>1 hour</option>
+            <option value={6}>6 hours</option>
+            <option value={24}>24 hours</option>
+            <option value={168}>7 days</option>
+          </select>
+        </label>
+      )}
+      <label className="modal-label modal-label-check">
+        <input
+          type="checkbox"
+          checked={config.show_slider !== false}
+          onChange={e => onChange('show_slider', e.target.checked)}
+        />
+        Show slider (brightness / speed / volume)
+      </label>
+      <label className="modal-label">Accent color (CSS, optional)
+        <input
+          className="modal-input"
+          value={config.accent_color ?? ''}
+          onChange={e => onChange('accent_color', e.target.value || undefined)}
+          placeholder="auto from domain"
+        />
+      </label>
+      <label className="modal-label modal-label-check">
+        <input
+          type="checkbox"
+          checked={config.ambient_animation !== false}
+          onChange={e => onChange('ambient_animation', e.target.checked ? 'auto' : false)}
+        />
+        Ambient animation (auto-detected from sensor unit)
+      </label>
+    </>
   )
 }
 
@@ -355,6 +417,19 @@ registry.register({
   needsEntity: false,
   component: MarkdownCard,
   configUI: MarkdownConfigUI,
+})
+
+registry.register({
+  type: 'button_plus',
+  label: 'Button+',
+  icon: '🔘',
+  group: 'Control',
+  defaultSize: [2, 2],
+  minSize: [2, 1],
+  needsEntity: true,
+  defaultDomains: ['light', 'switch', 'fan', 'media_player', 'remote', 'climate', 'cover', 'input_boolean', 'vacuum', 'sensor', 'binary_sensor'],
+  component: ButtonPlusCard,
+  configUI: ButtonPlusConfigUI,
 })
 
 registry.register({

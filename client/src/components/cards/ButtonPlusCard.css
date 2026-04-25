@@ -1,0 +1,520 @@
+/* ── Button+ Card ───────────────────────────────────────────────────────────── */
+
+.bp-card {
+  container-type: size;
+  position: relative;
+  overflow: hidden;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    box-shadow var(--hb-duration-normal) var(--hb-ease),
+    border-color var(--hb-duration-normal) var(--hb-ease);
+}
+
+.bp-has-slider {
+  touch-action: none;
+}
+
+/* Glow: intensity (0–1) drives shadow spread */
+.bp-card.bp-on {
+  box-shadow:
+    0 0 calc(4px + var(--bp-intensity, 0) * 30px)
+      color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 55%, transparent),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+  border-color: color-mix(
+    in srgb,
+    var(--bp-accent, var(--hb-accent)) calc(var(--bp-intensity, 0) * 35%),
+    rgba(255, 255, 255, 0.12)
+  );
+}
+
+.bp-card.bp-off {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes bp-icon-blink {
+  0%   { color: rgba(255,255,255,0.70); animation-timing-function: steps(1, end); }
+  4%   { color: var(--hb-status-error);  animation-timing-function: steps(1, end); }
+  8%   { color: rgba(255,255,255,0.70); animation-timing-function: steps(1, end); }
+  12%  { color: var(--hb-status-error);  animation-timing-function: steps(1, end); }
+  16%  { color: rgba(255,255,255,0.70); animation-timing-function: steps(1, end); }
+  20%  { color: var(--hb-status-error);  animation-timing-function: steps(1, end); }
+  24%  { color: rgba(255,255,255,0.70); }
+  100% { color: rgba(255,255,255,0.70); }
+}
+
+.bp-batt-warn .bp-icon-wrap,
+.bp-batt-crit .bp-icon-wrap {
+  animation: bp-icon-blink 5s ease-in-out infinite;
+}
+
+.bp-card.bp-unavailable {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── Gradient fill background ────────────────────────────────────────────────
+   Fades in from left → peaks at fill point → sharp cut to transparent.
+   Result: the fill shows how much of the range is active, with a natural
+   fade that always starts weak on the left edge.
+────────────────────────────────────────────────────────────────────────────── */
+
+.bp-fill-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 28%, transparent) var(--bp-fill-pct, 0%),
+    transparent var(--bp-fill-pct, 0%)
+  );
+  transition: background 0.08s linear;
+}
+
+/* ── Sparkline background ────────────────────────────────────────────────────
+   Full-card SVG, wave rendered in the lower 55% of height.
+   Sits above the gradient fill, below the content.
+────────────────────────────────────────────────────────────────────────────── */
+
+.bp-spark-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.bp-spark-line {
+  stroke: var(--bp-accent, var(--hb-accent));
+  opacity: 0.5;
+  vector-effect: non-scaling-stroke;
+  transition: opacity var(--hb-duration-normal) var(--hb-ease);
+}
+
+.bp-spark-fill {
+  fill: var(--bp-accent, var(--hb-accent));
+  opacity: 0.07;
+  transition: opacity var(--hb-duration-normal) var(--hb-ease);
+}
+
+.bp-card.bp-on .bp-spark-line { opacity: 0.65; }
+.bp-card.bp-on .bp-spark-fill { opacity: 0.10; }
+
+/* ── Content layer ───────────────────────────────────────────────────────────
+   Sits above both backgrounds with z-index.
+────────────────────────────────────────────────────────────────────────────── */
+
+.bp-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* ── Icon bubble ─────────────────────────────────────────────────────────────── */
+
+.bp-icon-wrap {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 14%, rgba(255, 255, 255, 0.06));
+  color: rgba(255, 255, 255, 0.70);
+  transition:
+    background var(--hb-duration-normal) var(--hb-ease),
+    color var(--hb-duration-normal) var(--hb-ease),
+    box-shadow var(--hb-duration-normal) var(--hb-ease);
+}
+
+.bp-card.bp-on .bp-icon-wrap {
+  background: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) calc(18% + var(--bp-intensity, 0) * 18%), rgba(255, 255, 255, 0.06));
+  color: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 80%, white);
+  box-shadow: 0 0 calc(3px + var(--bp-intensity, 0) * 12px)
+    color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 50%, transparent);
+}
+
+.bp-icon-svg { display: block; }
+
+/* ── Text ────────────────────────────────────────────────────────────────────── */
+
+.bp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.bp-name {
+  font-size: var(--hb-font-size-sm);
+  font-weight: 600;
+  color: var(--hb-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.bp-state {
+  font-size: var(--hb-font-size-xs);
+  font-weight: 500;
+  color: var(--hb-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--hb-duration-fast) var(--hb-ease);
+}
+
+.bp-card.bp-on .bp-state {
+  color: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 70%, rgba(255, 255, 255, 0.65));
+}
+
+/* ── Drag cursor — rides sparkline during slider drag ───────────────────────── */
+
+.bp-cursor {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.bp-cursor-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bp-accent, var(--hb-accent));
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.4),
+    0 0 8px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 70%, transparent);
+  margin: 0 auto;
+}
+
+.bp-cursor-label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 20%, rgba(0, 0, 0, 0.75));
+  color: var(--hb-text-primary);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font);
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+  border: 1px solid color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 35%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.bp-cursor-time {
+  font-size: 9px;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-top: 1px;
+  text-align: center;
+}
+
+/* Flip label below dot when cursor is in top 30% of card */
+.bp-cursor.bp-cursor--below .bp-cursor-label {
+  bottom: auto;
+  top: calc(100% + 6px);
+}
+
+/* ── Play/pause overlay (media_player) ──────────────────────────────────────── */
+
+.bp-playpause {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition:
+    color var(--hb-duration-fast) var(--hb-ease),
+    transform var(--hb-duration-fast) var(--hb-ease-spring);
+}
+
+.bp-playpause:hover {
+  color: var(--bp-accent, var(--hb-accent));
+  transform: scale(1.12);
+}
+
+.bp-playpause:active {
+  transform: scale(0.92);
+}
+
+.bp-playpause--playing {
+  color: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 80%, white);
+}
+
+/* ── Ripple ──────────────────────────────────────────────────────────────────── */
+
+.bp-ripple {
+  position: absolute;
+  z-index: 2;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 55%, white);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: bp-ripple 0.55s var(--hb-ease) forwards;
+}
+
+@keyframes bp-ripple {
+  0%   { transform: translate(-50%, -50%) scale(0);  opacity: 0.75; }
+  100% { transform: translate(-50%, -50%) scale(22); opacity: 0; }
+}
+
+/* ── Icon animations ─────────────────────────────────────────────────────────── */
+
+@keyframes bp-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.bp-icon--spin .bp-icon-svg {
+  animation: bp-spin 1.6s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes bp-glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 calc(2px + var(--bp-intensity, 1) * 4px) var(--bp-accent, var(--hb-accent)));
+  }
+  50% {
+    filter: drop-shadow(0 0 calc(5px + var(--bp-intensity, 1) * 9px) var(--bp-accent, #ffd60a));
+  }
+}
+
+.bp-icon--glow .bp-icon-svg {
+  animation: bp-glow-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes bp-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.1); }
+}
+
+.bp-icon--pulse .bp-icon-svg {
+  animation: bp-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes bp-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-2px); }
+}
+
+.bp-icon--float .bp-icon-svg {
+  animation: bp-float 3s ease-in-out infinite;
+}
+
+/* ── Ambient animations ──────────────────────────────────────────────────────── */
+
+@keyframes bp-elec-halo-pulse {
+  0%, 100% { opacity: 0.10; }
+  30%       { opacity: 0.26; }
+  65%       { opacity: 0.14; }
+}
+
+@keyframes bp-elec-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -32; }
+}
+
+@keyframes bp-elec-spark {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -64; }
+}
+
+.bp-spark-wind-streak {
+  stroke: rgba(220, 238, 255, 1);
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: blur(1.2px);
+}
+
+/* Layer 1: wide pulsing halo */
+.bp-spark-elec-halo {
+  stroke: var(--bp-accent, var(--hb-accent));
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter:
+    drop-shadow(0 0 5px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 90%, transparent))
+    drop-shadow(0 0 12px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 60%, transparent));
+  will-change: filter;
+  animation: bp-elec-halo-pulse var(--bp-anim-duration, 2s) ease-in-out infinite;
+}
+
+/* Layer 2: flowing dashes */
+.bp-spark-elec-flow {
+  stroke: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 85%, white);
+  stroke-dasharray: 10 22;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 95%, transparent));
+  will-change: stroke-dashoffset, filter;
+  animation: bp-elec-flow calc(var(--bp-anim-duration, 2s) * 0.4) linear infinite;
+}
+
+/* Layer 3: bright spark highlights */
+.bp-spark-elec-spark {
+  stroke: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 30%, white);
+  stroke-dasharray: 4 60;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 60%, white));
+  will-change: stroke-dashoffset, filter;
+  animation: bp-elec-spark calc(var(--bp-anim-duration, 2s) * 0.22) linear infinite;
+}
+
+/* ── Big value display (right side, numeric sensors) ─────────────────────────── */
+
+.bp-value {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-shrink: 0;
+  margin-left: auto;
+  gap: 3px;
+}
+
+.bp-value-number {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 90%, transparent),
+    0 0 28px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 45%, transparent);
+  transition: text-shadow var(--hb-duration-normal) var(--hb-ease);
+}
+
+.bp-value-unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 75%, rgba(255, 255, 255, 0.55));
+}
+
+/* ── Container queries ───────────────────────────────────────────────────────── */
+
+/* 1 column: hide text, center icon */
+@container (max-width: 120px) {
+  .bp-info { display: none; }
+  .bp-value { display: none; }
+  .bp-icon-wrap { margin: 0 auto; }
+  .bp-content { justify-content: center; }
+}
+
+/* 1 row (short card): scale down the big number */
+@container (max-height: 100px) {
+  .bp-value-number { font-size: 20px; }
+  .bp-value-unit   { font-size: 10px; }
+}
+
+/* Very short card: just the icon row, no wasted vertical space */
+@container (max-height: 70px) {
+  .bp-card { padding: 8px 12px; }
+}
+
+/* ── Battery body (non-histogram mode) ──────────────────────────────────────── */
+
+.bp-battery-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 14px;
+  right: 14px;
+  height: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 99px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bp-battery-bar-fill {
+  height: 100%;
+  width: var(--bp-batt-pct, 0%);
+  background: var(--bp-accent, var(--hb-accent));
+  border-radius: inherit;
+  transition: width 0.6s ease;
+}
+
+/* Charging: subtle brightness pulse on fill */
+.bp-batt-charging .bp-battery-bar-fill {
+  animation: bp-batt-charge-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes bp-batt-charge-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+/* Draining: slow dim */
+.bp-batt-draining .bp-battery-bar-fill {
+  animation: bp-batt-drain-pulse 3s ease-in-out infinite;
+}
+
+@keyframes bp-batt-drain-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Battery histogram animation ─────────────────────────────────────────────── */
+
+.bp-spark-batt-flow {
+  stroke: var(--bp-accent, var(--hb-accent));
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter:
+    drop-shadow(0 0 6px var(--bp-accent, var(--hb-accent)))
+    drop-shadow(0 0 14px color-mix(in srgb, var(--bp-accent, var(--hb-accent)) 60%, transparent));
+}
+
+@keyframes bp-batt-charge {
+  from { stroke-dashoffset: 138; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes bp-batt-drain {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: 138; }
+}
+
+.bp-spark-batt-flow--charging {
+  stroke-dasharray: 14 32;
+  opacity: 1;
+  animation: bp-batt-charge 1.6s linear infinite;
+}
+
+.bp-spark-batt-flow--draining {
+  stroke-dasharray: 14 32;
+  opacity: 1;
+  animation: bp-batt-drain 2.8s linear infinite;
+}
+
+@keyframes bp-batt-stable-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 1; }
+}
+
+.bp-spark-batt-flow--stable {
+  stroke-dasharray: none;
+  animation: bp-batt-stable-pulse 3s ease-in-out infinite;
+}

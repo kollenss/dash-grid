@@ -10,25 +10,26 @@
     "start": "node dist/server/index.js"
   },
   "dependencies": {
-    "fastify": "^4.28.1",
-    "@fastify/static": "^7.0.4",
     "@fastify/cors": "^9.0.1",
-    "ws": "^8.18.0",
+    "@fastify/static": "^7.0.4",
+    "@mdi/js": "^7.4.47",
     "better-sqlite3": "^11.5.0",
+    "fastify": "^4.28.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10",
-    "@vitejs/plugin-react": "^4.3.3",
-    "@types/node": "^22.9.0",
     "@types/better-sqlite3": "^7.6.11",
-    "@types/ws": "^8.5.13",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/ws": "^8.5.13",
+    "@vitejs/plugin-react": "^4.3.3",
     "concurrently": "^9.1.0",
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
   }
 }
