@@ -16,6 +16,8 @@ interface Config {
   show_slider?: boolean
   accent_color?: string
   ambient_animation?: 'auto' | false
+  debug_ambient?: 'wind' | 'electricity' | false
+  debug_ambient_value?: number
 }
 
 interface Props {
@@ -686,10 +688,14 @@ export default function ButtonPlusCard({ config, state }: Props) {
   // ── Ambient animation
   const unit         = state?.attributes?.unit_of_measurement as string | undefined
   const ambientOn    = config.ambient_animation !== false
-  const ambientTheme = ambientOn && showHistogram
-    ? detectAmbientTheme(unit, state?.attributes?.device_class, entityId)
-    : null
-  const numericVal   = state ? parseFloat(state.state) : NaN
+  const debugTheme   = config.debug_ambient || null
+  const ambientTheme = debugTheme
+    ?? (ambientOn && showHistogram
+      ? detectAmbientTheme(unit, state?.attributes?.device_class, entityId)
+      : null)
+  const numericVal   = debugTheme && config.debug_ambient_value !== undefined
+    ? config.debug_ambient_value
+    : (state ? parseFloat(state.state) : NaN)
   const animDuration = ambientTheme ? ambientDuration(ambientTheme, numericVal) : '2s'
   const animOpacity  = ambientTheme ? ambientOpacity(ambientTheme, numericVal) : '0.7'
 
