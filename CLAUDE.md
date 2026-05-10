@@ -55,6 +55,21 @@ Push to remote when a feature is done.
 | `server/index.ts` | Fastify entry, plugin server registry |
 | `client/src/lib/mdiIcons.tsx` | MDI icon component + domain→icon/color lookup (used by Button+) |
 
+## Auto-hide header
+
+`App.tsx` hides the header bar after 3 s of inactivity and reveals it when the mouse enters the top 60 px of the window. CSS class `app-header--hidden` applies `transform: translateY(-100%)` + `opacity: 0` + `pointer-events: none`. The header uses `position: absolute` so it overlays the grid without consuming layout space.
+
+## ClockCard — weather forecast mode
+
+Enable in config UI: "Show weather forecast" checkbox + weather entity selector.
+
+- Current conditions pulled from `states[weatherEntityId]` (icon + temperature, already in CoreContext)
+- 5-day daily forecast fetched from `/api/ha/weather-forecast/:entityId` (proxy in `server/routes/ha-proxy.ts`)
+  - HA 2023.9+ route: `POST /api/services/weather/get_forecasts?return_response` with `{ entity_id, type: "daily" }`
+  - Response path: `data.service_response[entityId].forecast`
+- `TempBar` component renders a gradient bar (blue→teal→yellow-green→yellow→orange, 0–30 °C) with a white dot for today's current temp
+- Refreshes every 15 min via `setInterval`
+
 ## Complex built-in cards — extended docs
 
 | Card | Doc |
@@ -73,13 +88,21 @@ Push to remote when a feature is done.
 
 ## Grid dimensions (for container queries)
 
+The grid fills the full viewport automatically via `ResizeObserver` — no fixed base resolution. Cell sizes are computed in JS:
+```
+cellW = (containerWidth  - 2×16px padding - 11×12px gaps) / 12
+cellH = (containerHeight - 2×16px padding -  7×12px gaps) /  8
+```
+
+On a 1920×1080 display these come out to approximately:
+
 | Size | Width | Height |
 |------|-------|--------|
-| 1 col | ~106px | — |
-| 2 col | ~224px | — |
-| 3 col | ~343px | — |
-| 1 row | — | ~91px |
-| 2 row | — | ~195px |
+| 1 col | ~143px | — |
+| 2 col | ~298px | — |
+| 3 col | ~453px | — |
+| 1 row | — | ~118px |
+| 2 row | — | ~248px |
 
 Container query thresholds: 1-wide `max-width: 115px`, 2-wide `min-width: 200px`, 1-tall `max-height: 100px`, 2-tall `min-height: 110px`.
 
