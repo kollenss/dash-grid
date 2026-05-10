@@ -6,8 +6,6 @@
 
 .hb-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(8, 1fr);
   gap: var(--grid-gap, 12px);
   padding: 16px;
   width: 100%;

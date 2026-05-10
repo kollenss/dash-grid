@@ -232,6 +232,24 @@
   .clock-date { color: var(--hb-text-primary); }
 }
 
+/* ── Weather layout — cqh/cqw scaling ──────────────────── */
+@supports (font-size: 1cqh) {
+  .clock-weather                    { padding: 3cqh 3cqw; gap: 2cqh; }
+  .clock-weather .clock-w-top       { gap: 3cqw; }
+  .clock-weather .clock-w-icon      { font-size: 14cqh; }
+  .clock-weather .clock-w-time      { font-size: 22cqh; }
+  .clock-weather .clock-w-condition { font-size: 5cqh; }
+  .clock-weather .clock-w-date      { font-size: 4.5cqh; margin-top: 0.5cqh; }
+  .clock-weather .clock-w-forecast  { gap: 1.5cqh; }
+  .clock-weather .clock-fc-row      { gap: 1.5cqw; }
+  .clock-weather .clock-fc-day      { font-size: 4.5cqh; width: 4cqh; }
+  .clock-weather .clock-fc-icon     { font-size: 4.5cqh; width: 3.5cqh; }
+  .clock-weather .clock-fc-lo,
+  .clock-weather .clock-fc-hi       { font-size: 4cqh; width: 4cqh; }
+  .clock-weather .clock-temp-track  { height: 1.5cqh; }
+  .clock-weather .clock-temp-dot    { width: 2.8cqh; height: 2.8cqh; }
+}
+
 /* ── 2x1: time left, side column right ─────────────────── */
 @container (min-width: 200px) and (max-height: 100px) {
   .clock-layout {

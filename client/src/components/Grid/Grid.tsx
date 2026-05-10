@@ -45,8 +45,15 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
     return () => ro.disconnect()
   }, [])
 
-  const cellW = size.w > 0 ? (size.w - 2 * GRID_PADDING - (COLS - 1) * GRID_GAP) / COLS : 0
-  const cellH = size.h > 0 ? (size.h - 2 * GRID_PADDING - (ROWS - 1) * GRID_GAP) / ROWS : 0
+  const activeCols = editMode || cards.length === 0
+    ? COLS
+    : Math.max(...cards.map(c => c.col + c.col_span - 1))
+  const activeRows = editMode || cards.length === 0
+    ? ROWS
+    : Math.max(...cards.map(c => c.row + c.row_span - 1))
+
+  const cellW = size.w > 0 ? (size.w - 2 * GRID_PADDING - (activeCols - 1) * GRID_GAP) / activeCols : 0
+  const cellH = size.h > 0 ? (size.h - 2 * GRID_PADDING - (activeRows - 1) * GRID_GAP) / activeRows : 0
 
   function clientToCell(clientX: number, clientY: number): { col: number; row: number } | null {
     const el = gridRef.current
@@ -120,7 +127,10 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
 
   return (
     <div ref={containerRef} className="hb-grid-outer">
-      <div ref={gridRef} className="hb-grid">
+      <div ref={gridRef} className="hb-grid" style={{
+        gridTemplateColumns: `repeat(${activeCols}, 1fr)`,
+        gridTemplateRows:    `repeat(${activeRows}, 1fr)`,
+      }}>
         {editMode && Array.from({ length: ROWS }, (_, ri) =>
           Array.from({ length: COLS }, (_, ci) => {
             const col = ci + 1
