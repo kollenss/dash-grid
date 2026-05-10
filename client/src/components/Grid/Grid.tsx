@@ -10,7 +10,7 @@ const GRID_GAP = 12
 
 interface DragState {
   cardId: string
-  offsetCol: number   // grab-offset från kortets vänsterkant i kolumnenheter
+  offsetCol: number
   offsetRow: number
   targetCol: number
   targetRow: number
@@ -24,49 +24,42 @@ interface Props {
   onEditCard: (cardId: string) => void
   onResizeCard: (cardId: string, colSpan: number, rowSpan: number) => void
   onMoveCard: (cardId: string, col: number, row: number) => void
-  minScale?: number
-  baseWidth?: number
-  baseHeight?: number
 }
 
-export default function Grid({ cards, editMode = false, onAddCard, onEditCard, onResizeCard, onMoveCard, minScale = 0.5, baseWidth = 1440, baseHeight = 848 }: Props) {
+export default function Grid({ cards, editMode = false, onAddCard, onEditCard, onResizeCard, onMoveCard }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const gridRef      = useRef<HTMLDivElement>(null)
-  const [scale, setScale] = useState(1)
-  const [drag, setDrag]   = useState<DragState | null>(null)
-  const latestDrag        = useRef<DragState | null>(null)  // synkront spår senaste drag-state
-
-  const cellW = (baseWidth  - 2 * GRID_PADDING - (COLS - 1) * GRID_GAP) / COLS
-  const cellH = (baseHeight - 2 * GRID_PADDING - (ROWS - 1) * GRID_GAP) / ROWS
+  const [size, setSize] = useState({ w: 0, h: 0 })
+  const [drag, setDrag] = useState<DragState | null>(null)
+  const latestDrag      = useRef<DragState | null>(null)
 
   useEffect(() => {
-    function updateScale() {
+    function update() {
       const el = containerRef.current
       if (!el) return
-      const sx = el.clientWidth  / baseWidth
-      const sy = el.clientHeight / baseHeight
-      setScale(Math.max(Math.min(sx, sy), minScale))
+      setSize({ w: el.clientWidth, h: el.clientHeight })
     }
-    updateScale()
-    const ro = new ResizeObserver(updateScale)
+    update()
+    const ro = new ResizeObserver(update)
     if (containerRef.current) ro.observe(containerRef.current)
     return () => ro.disconnect()
-  }, [minScale, baseWidth, baseHeight])
+  }, [])
 
-  // Konverterar skärmkoordinater → gridcell (1-indexerat)
+  const cellW = size.w > 0 ? (size.w - 2 * GRID_PADDING - (COLS - 1) * GRID_GAP) / COLS : 0
+  const cellH = size.h > 0 ? (size.h - 2 * GRID_PADDING - (ROWS - 1) * GRID_GAP) / ROWS : 0
+
   function clientToCell(clientX: number, clientY: number): { col: number; row: number } | null {
     const el = gridRef.current
     if (!el) return null
     const rect = el.getBoundingClientRect()
-    const designX = (clientX - rect.left) / scale - GRID_PADDING
-    const designY = (clientY - rect.top)  / scale - GRID_PADDING
+    const x = clientX - rect.left - GRID_PADDING
+    const y = clientY - rect.top  - GRID_PADDING
     return {
-      col: Math.floor(designX / (cellW + GRID_GAP)) + 1,
-      row: Math.floor(designY / (cellH + GRID_GAP)) + 1
+      col: Math.floor(x / (cellW + GRID_GAP)) + 1,
+      row: Math.floor(y / (cellH + GRID_GAP)) + 1,
     }
   }
 
-  // Kontrollerar om en position är giltig (inga överlapp, inom gränser)
   function isValidPos(cardId: string, col: number, row: number, colSpan: number, rowSpan: number): boolean {
     if (col < 1 || row < 1 || col + colSpan - 1 > COLS || row + rowSpan - 1 > ROWS) return false
     for (const other of cards) {
@@ -83,16 +76,9 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
     const card = cards.find(c => c.id === cardId)!
     const cell = clientToCell(clientX, clientY)
     if (!cell) return
-
-    // Grab-offset: hur många celler från kortets hörn tryckte användaren
     const offsetCol = Math.max(0, Math.min(card.col_span - 1, cell.col - card.col))
     const offsetRow = Math.max(0, Math.min(card.row_span - 1, cell.row - card.row))
-
-    const newDrag: DragState = {
-      cardId, offsetCol, offsetRow,
-      targetCol: card.col, targetRow: card.row,
-      valid: true
-    }
+    const newDrag: DragState = { cardId, offsetCol, offsetRow, targetCol: card.col, targetRow: card.row, valid: true }
     latestDrag.current = newDrag
     setDrag(newDrag)
   }
@@ -100,15 +86,12 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
   function handleDragMove(clientX: number, clientY: number) {
     const current = latestDrag.current
     if (!current) return
-
     const cell = clientToCell(clientX, clientY)
     if (!cell) return
-
     const card = cards.find(c => c.id === current.cardId)!
     const newCol = Math.max(1, Math.min(COLS - card.col_span + 1, cell.col - current.offsetCol))
     const newRow = Math.max(1, Math.min(ROWS - card.row_span + 1, cell.row - current.offsetRow))
     const valid  = isValidPos(current.cardId, newCol, newRow, card.col_span, card.row_span)
-
     const newDrag: DragState = { ...current, targetCol: newCol, targetRow: newRow, valid }
     latestDrag.current = newDrag
     setDrag(newDrag)
@@ -126,74 +109,57 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
     setDrag(null)
   }
 
-  // Beräkna occupied med hänsyn till pågående drag
   const occupied = new Set<string>()
   for (const card of cards) {
     const col = drag?.cardId === card.id ? drag.targetCol : card.col
     const row = drag?.cardId === card.id ? drag.targetRow : card.row
-    for (let r = row; r < row + card.row_span; r++) {
-      for (let c = col; c < col + card.col_span; c++) {
+    for (let r = row; r < row + card.row_span; r++)
+      for (let c = col; c < col + card.col_span; c++)
         occupied.add(`${c},${r}`)
-      }
-    }
   }
-
-  const sizerW = Math.round(baseWidth  * scale)
-  const sizerH = Math.round(baseHeight * scale)
 
   return (
     <div ref={containerRef} className="hb-grid-outer">
-      <div style={{ width: sizerW, height: sizerH, position: 'relative', flexShrink: 0 }}>
-        <div
-          ref={gridRef}
-          className="hb-grid"
-          style={{ width: baseWidth, height: baseHeight, transform: `scale(${scale})` }}
-        >
-          {editMode && Array.from({ length: ROWS }, (_, ri) =>
-            Array.from({ length: COLS }, (_, ci) => {
-              const col = ci + 1
-              const row = ri + 1
-              const key = `${col},${row}`
-              if (occupied.has(key)) return null
-              return (
-                <div
-                  key={key}
-                  className="hb-empty-cell"
-                  style={{ gridColumn: `${col}`, gridRow: `${row}` }}
-                  onClick={() => onAddCard(col, row)}
-                >
-                  <span className="hb-add-icon">+</span>
-                </div>
-              )
-            })
-          )}
-
-          {cards.map(card => {
-            const isDragging  = drag?.cardId === card.id
-            // Under drag: visa kortet på målpositionen
-            const displayCard = isDragging
-              ? { ...card, col: drag!.targetCol, row: drag!.targetRow }
-              : card
-
+      <div ref={gridRef} className="hb-grid">
+        {editMode && Array.from({ length: ROWS }, (_, ri) =>
+          Array.from({ length: COLS }, (_, ci) => {
+            const col = ci + 1
+            const row = ri + 1
+            const key = `${col},${row}`
+            if (occupied.has(key)) return null
             return (
-              <GridCell
-                key={card.id}
-                card={displayCard}
-                scale={scale}
-                cellW={cellW}
-                cellH={cellH}
-                editMode={editMode}
-                onEdit={onEditCard}
-                onResize={onResizeCard}
-                onDragStart={handleDragStart}
-                onDragMove={handleDragMove}
-                onDragEnd={handleDragEnd}
-                isDragging={isDragging}
-                dropValid={isDragging ? drag!.valid : true}
-              />
+              <div
+                key={key}
+                className="hb-empty-cell"
+                style={{ gridColumn: `${col}`, gridRow: `${row}` }}
+                onClick={() => onAddCard(col, row)}
+              >
+                <span className="hb-add-icon">+</span>
+              </div>
             )
-          })}
-        </div>
+          })
+        )}
+
+        {cards.map(card => {
+          const isDragging  = drag?.cardId === card.id
+          const displayCard = isDragging ? { ...card, col: drag!.targetCol, row: drag!.targetRow } : card
+          return (
+            <GridCell
+              key={card.id}
+              card={displayCard}
+              cellW={cellW}
+              cellH={cellH}
+              editMode={editMode}
+              onEdit={onEditCard}
+              onResize={onResizeCard}
+              onDragStart={handleDragStart}
+              onDragMove={handleDragMove}
+              onDragEnd={handleDragEnd}
+              isDragging={isDragging}
+              dropValid={isDragging ? drag!.valid : true}
+            />
+          )
+        })}
       </div>
     </div>
   )

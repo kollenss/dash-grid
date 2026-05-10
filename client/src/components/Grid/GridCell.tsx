@@ -13,7 +13,6 @@ const DRAG_THRESHOLD = 10
 
 interface Props {
   card: CardConfig
-  scale: number
   cellW: number
   cellH: number
   editMode?: boolean
@@ -27,7 +26,7 @@ interface Props {
 }
 
 export default function GridCell({
-  card, scale, cellW, cellH, editMode = false, onEdit, onResize,
+  card, cellW, cellH, editMode = false, onEdit, onResize,
   onDragStart, onDragMove, onDragEnd,
   isDragging = false, dropValid = true
 }: Props) {
@@ -102,8 +101,8 @@ export default function GridCell({
     const dx = e.clientX - resizeStart.current.x
     const dy = e.clientY - resizeStart.current.y
 
-    const colDelta = Math.round(dx / scale / (cellW + GRID_GAP))
-    const rowDelta = Math.round(dy / scale / (cellH + GRID_GAP))
+    const colDelta = Math.round(dx / (cellW + GRID_GAP))
+    const rowDelta = Math.round(dy / (cellH + GRID_GAP))
 
     const def = registry.get(card.type)
     const minColSpan = def?.minSize?.[0] ?? 1

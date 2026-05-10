@@ -28,8 +28,6 @@ function Dashboard() {
   const [editMode, setEditMode]       = useState(false)
   const [designOpen, setDesignOpen]   = useState(false)
   const [backgroundImage, setBackgroundImage] = useState('')
-  const [gridBaseWidth,  setGridBaseWidth]  = useState(1440)
-  const [gridBaseHeight, setGridBaseHeight] = useState(848)
   const [headerVisible, setHeaderVisible] = useState(true)
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [minScale, setMinScale]   = useState(() => {
@@ -76,8 +74,6 @@ function Dashboard() {
         }
         setIntegrations(resolved)
         setBackgroundImage(data['background_image'] ?? '')
-        if (data['grid_base_width'])  setGridBaseWidth(parseInt(data['grid_base_width']))
-        if (data['grid_base_height']) setGridBaseHeight(parseInt(data['grid_base_height']))
       })
       .catch(() => {})
   }, [])
@@ -235,9 +231,6 @@ function Dashboard() {
               onEditCard={cardId => setEditModal(cards.find(c => c.id === cardId) ?? null)}
               onResizeCard={handleResizeCard}
               onMoveCard={handleMoveCard}
-              minScale={minScale}
-              baseWidth={gridBaseWidth}
-              baseHeight={gridBaseHeight}
             />
           )}
         </main>

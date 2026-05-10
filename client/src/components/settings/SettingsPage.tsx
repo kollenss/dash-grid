@@ -15,8 +15,6 @@ export default function SettingsPage() {
   const [dashboardName, setDashboardName] = useState('Home')
   const [dashboardId, setDashboardId]     = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
-  const [gridWidth,  setGridWidth]  = useState('1440')
-  const [gridHeight, setGridHeight] = useState('848')
 
   const integrations = registry.getIntegrations()
 
@@ -40,8 +38,7 @@ export default function SettingsPage() {
       }
       setIntegrationValues(ivs)
       setSavedKeys(sk)
-      if (data['grid_base_width'])  setGridWidth(data['grid_base_width'])
-      if (data['grid_base_height']) setGridHeight(data['grid_base_height'])
+
     })
     fetch('/api/dashboards').then(r => r.json()).then((data: any[]) => {
       if (data[0]) {
@@ -67,8 +64,6 @@ export default function SettingsPage() {
       }
     }
 
-    body['grid_base_width']  = gridWidth  || '1440'
-    body['grid_base_height'] = gridHeight || '848'
 
     await fetch('/api/settings', {
       method: 'PUT',
@@ -172,36 +167,6 @@ export default function SettingsPage() {
             </label>
           </div>
 
-          {/* ── Grid resolution ──────────────────────────────────────────── */}
-          <div className="settings-integration">
-            <h2 className="settings-section-title">Display Resolution</h2>
-            <p className="settings-help">The pixel dimensions the 12×8 grid is designed for. The grid scales to fill the screen while maintaining this aspect ratio. Default: 1440×848.</p>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              <label className="settings-label" style={{ flex: 1 }}>
-                Width (px)
-                <input
-                  className="settings-input"
-                  type="number"
-                  min={800}
-                  max={7680}
-                  value={gridWidth}
-                  onChange={e => setGridWidth(e.target.value)}
-                />
-              </label>
-              <span style={{ marginTop: 20, color: 'var(--hb-text-dim)' }}>×</span>
-              <label className="settings-label" style={{ flex: 1 }}>
-                Height (px)
-                <input
-                  className="settings-input"
-                  type="number"
-                  min={400}
-                  max={4320}
-                  value={gridHeight}
-                  onChange={e => setGridHeight(e.target.value)}
-                />
-              </label>
-            </div>
-          </div>
 
           <div className="settings-actions">
             <button type="submit" className="btn-primary">
