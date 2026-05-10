@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './styles/globals.css'
 import './App.css'
@@ -30,6 +30,8 @@ function Dashboard() {
   const [backgroundImage, setBackgroundImage] = useState('')
   const [gridBaseWidth,  setGridBaseWidth]  = useState(1440)
   const [gridBaseHeight, setGridBaseHeight] = useState(848)
+  const [headerVisible, setHeaderVisible] = useState(true)
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [minScale, setMinScale]   = useState(() => {
     const saved = localStorage.getItem(LS_MIN_SCALE)
     return saved ? parseFloat(saved) : 0.5
@@ -78,6 +80,28 @@ function Dashboard() {
         if (data['grid_base_height']) setGridBaseHeight(parseInt(data['grid_base_height']))
       })
       .catch(() => {})
+  }, [])
+
+  // Auto-hide header: hide after 3s idle, show when mouse near top (within 60px)
+  useEffect(() => {
+    function scheduleHide() {
+      if (hideTimer.current) clearTimeout(hideTimer.current)
+      hideTimer.current = setTimeout(() => setHeaderVisible(false), 3000)
+    }
+    function onMouseMove(e: MouseEvent) {
+      if (e.clientY < 60) {
+        setHeaderVisible(true)
+        if (hideTimer.current) clearTimeout(hideTimer.current)
+      } else {
+        scheduleHide()
+      }
+    }
+    scheduleHide()
+    window.addEventListener('mousemove', onMouseMove)
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      if (hideTimer.current) clearTimeout(hideTimer.current)
+    }
   }, [])
 
   async function handleAddCard(data: {
@@ -158,7 +182,7 @@ function Dashboard() {
   return (
     <CoreProvider value={coreValue}>
       <div className="app-shell">
-        <header className="app-header">
+        <header className={`app-header${headerVisible ? '' : ' app-header--hidden'}`}>
           <span className="app-title">{boardName}</span>
           <div className="header-right">
             <label className="zoom-slider-label">
