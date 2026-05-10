@@ -6,22 +6,16 @@ import { CardConfig } from '../../types'
 import CardErrorBoundary from './CardErrorBoundary'
 import './GridCell.css'
 
-// Måste matcha konstanter i Grid.tsx och Grid.css
-const GRID_PADDING = 16
 const GRID_GAP = 12
 const COLS = 12
 const ROWS = 8
-const BASE_WIDTH = 1440
-const BASE_HEIGHT = 848
-const CELL_W = (BASE_WIDTH  - 2 * GRID_PADDING - (COLS - 1) * GRID_GAP) / COLS
-const CELL_H = (BASE_HEIGHT - 2 * GRID_PADDING - (ROWS - 1) * GRID_GAP) / ROWS
-
-// Hur många skärmpixlar pekaren måste röra sig för att drag aktiveras (istället för tap)
 const DRAG_THRESHOLD = 10
 
 interface Props {
   card: CardConfig
   scale: number
+  cellW: number
+  cellH: number
   editMode?: boolean
   onEdit: (id: string) => void
   onResize: (id: string, colSpan: number, rowSpan: number) => void
@@ -33,7 +27,7 @@ interface Props {
 }
 
 export default function GridCell({
-  card, scale, editMode = false, onEdit, onResize,
+  card, scale, cellW, cellH, editMode = false, onEdit, onResize,
   onDragStart, onDragMove, onDragEnd,
   isDragging = false, dropValid = true
 }: Props) {
@@ -108,8 +102,8 @@ export default function GridCell({
     const dx = e.clientX - resizeStart.current.x
     const dy = e.clientY - resizeStart.current.y
 
-    const colDelta = Math.round(dx / scale / (CELL_W + GRID_GAP))
-    const rowDelta = Math.round(dy / scale / (CELL_H + GRID_GAP))
+    const colDelta = Math.round(dx / scale / (cellW + GRID_GAP))
+    const rowDelta = Math.round(dy / scale / (cellH + GRID_GAP))
 
     const def = registry.get(card.type)
     const minColSpan = def?.minSize?.[0] ?? 1

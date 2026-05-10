@@ -5,12 +5,8 @@ import { CardConfig } from '../../types'
 
 const COLS = 12
 const ROWS = 8
-const BASE_WIDTH  = 1440
-const BASE_HEIGHT = 848
 const GRID_PADDING = 16
 const GRID_GAP = 12
-const CELL_W = (BASE_WIDTH  - 2 * GRID_PADDING - (COLS - 1) * GRID_GAP) / COLS
-const CELL_H = (BASE_HEIGHT - 2 * GRID_PADDING - (ROWS - 1) * GRID_GAP) / ROWS
 
 interface DragState {
   cardId: string
@@ -29,28 +25,33 @@ interface Props {
   onResizeCard: (cardId: string, colSpan: number, rowSpan: number) => void
   onMoveCard: (cardId: string, col: number, row: number) => void
   minScale?: number
+  baseWidth?: number
+  baseHeight?: number
 }
 
-export default function Grid({ cards, editMode = false, onAddCard, onEditCard, onResizeCard, onMoveCard, minScale = 0.5 }: Props) {
+export default function Grid({ cards, editMode = false, onAddCard, onEditCard, onResizeCard, onMoveCard, minScale = 0.5, baseWidth = 1440, baseHeight = 848 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const gridRef      = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
   const [drag, setDrag]   = useState<DragState | null>(null)
   const latestDrag        = useRef<DragState | null>(null)  // synkront spår senaste drag-state
 
+  const cellW = (baseWidth  - 2 * GRID_PADDING - (COLS - 1) * GRID_GAP) / COLS
+  const cellH = (baseHeight - 2 * GRID_PADDING - (ROWS - 1) * GRID_GAP) / ROWS
+
   useEffect(() => {
     function updateScale() {
       const el = containerRef.current
       if (!el) return
-      const sx = el.clientWidth  / BASE_WIDTH
-      const sy = el.clientHeight / BASE_HEIGHT
+      const sx = el.clientWidth  / baseWidth
+      const sy = el.clientHeight / baseHeight
       setScale(Math.max(Math.min(sx, sy), minScale))
     }
     updateScale()
     const ro = new ResizeObserver(updateScale)
     if (containerRef.current) ro.observe(containerRef.current)
     return () => ro.disconnect()
-  }, [minScale])
+  }, [minScale, baseWidth, baseHeight])
 
   // Konverterar skärmkoordinater → gridcell (1-indexerat)
   function clientToCell(clientX: number, clientY: number): { col: number; row: number } | null {
@@ -60,8 +61,8 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
     const designX = (clientX - rect.left) / scale - GRID_PADDING
     const designY = (clientY - rect.top)  / scale - GRID_PADDING
     return {
-      col: Math.floor(designX / (CELL_W + GRID_GAP)) + 1,
-      row: Math.floor(designY / (CELL_H + GRID_GAP)) + 1
+      col: Math.floor(designX / (cellW + GRID_GAP)) + 1,
+      row: Math.floor(designY / (cellH + GRID_GAP)) + 1
     }
   }
 
@@ -137,8 +138,8 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
     }
   }
 
-  const sizerW = Math.round(BASE_WIDTH  * scale)
-  const sizerH = Math.round(BASE_HEIGHT * scale)
+  const sizerW = Math.round(baseWidth  * scale)
+  const sizerH = Math.round(baseHeight * scale)
 
   return (
     <div ref={containerRef} className="hb-grid-outer">
@@ -146,7 +147,7 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
         <div
           ref={gridRef}
           className="hb-grid"
-          style={{ width: BASE_WIDTH, height: BASE_HEIGHT, transform: `scale(${scale})` }}
+          style={{ width: baseWidth, height: baseHeight, transform: `scale(${scale})` }}
         >
           {editMode && Array.from({ length: ROWS }, (_, ri) =>
             Array.from({ length: COLS }, (_, ci) => {
@@ -179,6 +180,8 @@ export default function Grid({ cards, editMode = false, onAddCard, onEditCard, o
                 key={card.id}
                 card={displayCard}
                 scale={scale}
+                cellW={cellW}
+                cellH={cellH}
                 editMode={editMode}
                 onEdit={onEditCard}
                 onResize={onResizeCard}
