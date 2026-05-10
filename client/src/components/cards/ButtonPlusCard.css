@@ -518,3 +518,17 @@
   stroke-dasharray: none;
   animation: bp-batt-stable-pulse 3s ease-in-out infinite;
 }
+
+/* ── cqh/cqw scaling — content grows with card size ─────────────────────────── */
+@supports (font-size: 1cqh) {
+  .bp-card         { padding: 4cqh 4cqw; }
+  .bp-content      { gap: 3cqw; }
+  .bp-icon-wrap    { width: 40cqh; height: 40cqh; border-radius: 8cqh; }
+  .bp-icon-svg     { width: 55% !important; height: 55% !important; }
+  .bp-name         { font-size: 14cqh; }
+  .bp-state        { font-size: 12cqh; }
+  .bp-value        { gap: 1cqh; }
+  .bp-value-number { font-size: 24cqh; }
+  .bp-value-unit   { font-size: 10cqh; }
+  .bp-battery-bar  { height: 1.2cqh; bottom: 2cqh; left: 4cqw; right: 4cqw; }
+}

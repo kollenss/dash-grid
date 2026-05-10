@@ -242,10 +242,10 @@
   .clock-weather .clock-w-date      { font-size: 4.5cqh; margin-top: 0.5cqh; }
   .clock-weather .clock-w-forecast  { gap: 1.5cqh; }
   .clock-weather .clock-fc-row      { gap: 1.5cqw; }
-  .clock-weather .clock-fc-day      { font-size: 4.5cqh; width: 4cqh; }
-  .clock-weather .clock-fc-icon     { font-size: 4.5cqh; width: 3.5cqh; }
+  .clock-weather .clock-fc-day      { font-size: 4.5cqh; width: 3em; }
+  .clock-weather .clock-fc-icon     { font-size: 4.5cqh; width: 1.8em; }
   .clock-weather .clock-fc-lo,
-  .clock-weather .clock-fc-hi       { font-size: 4cqh; width: 4cqh; }
+  .clock-weather .clock-fc-hi       { font-size: 4cqh; width: 2.5em; }
   .clock-weather .clock-temp-track  { height: 1.5cqh; }
   .clock-weather .clock-temp-dot    { width: 2.8cqh; height: 2.8cqh; }
 }
