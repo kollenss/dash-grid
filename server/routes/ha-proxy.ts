@@ -122,6 +122,31 @@ export const haProxyRoutes: FastifyPluginAsync = async (app) => {
     }
   })
 
+  // GET daily weather forecast via HA get_forecasts service (HA 2023.9+)
+  app.get<{ Params: { entityId: string } }>('/weather-forecast/:entityId', async (req, reply) => {
+    const { haUrl, haToken } = getHAConfig()
+    if (!haUrl || !haToken) return reply.code(503).send({ error: 'HA not configured' })
+    try {
+      const res = await fetch(
+        `${haUrl}/api/services/weather/get_forecasts?return_response`,
+        {
+          method: 'POST',
+          headers: haHeaders(haToken),
+          body: JSON.stringify({ entity_id: req.params.entityId, type: 'daily' }),
+        }
+      )
+      const data = await res.json() as any
+      // HA wraps response in { service_response: { "weather.xxx": { forecast: [...] } } }
+      const forecast =
+        data?.service_response?.[req.params.entityId]?.forecast ?? []
+      reply.code(res.ok ? 200 : res.status)
+      return { forecast }
+    } catch (e: any) {
+      reply.code(503)
+      return { error: e.message }
+    }
+  })
+
   // GET test connection
   app.get('/test', async (req, reply) => {
     const { haUrl, haToken } = getHAConfig()

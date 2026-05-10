@@ -108,6 +108,124 @@
   }
 }
 
+/* ── Weather forecast layout ───────────────────────────── */
+.clock-weather {
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.clock-w-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.clock-w-icon {
+  font-size: 5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.clock-w-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.clock-w-condition {
+  font-size: 0.95rem;
+  color: var(--hb-text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.clock-w-time {
+  font-size: 4.5rem;
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--hb-text-primary);
+}
+
+.clock-w-date {
+  font-size: 0.9rem;
+  color: var(--hb-text-dim);
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+/* Forecast rows */
+.clock-w-forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.clock-fc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clock-fc-day {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--hb-text-primary);
+  width: 26px;
+  flex-shrink: 0;
+}
+
+.clock-fc-icon {
+  font-size: 0.9rem;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.clock-fc-lo,
+.clock-fc-hi {
+  font-size: 0.72rem;
+  color: var(--hb-text-secondary);
+  width: 26px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.clock-fc-lo { text-align: right; }
+.clock-fc-hi { text-align: left; }
+
+/* Temperature bar */
+.clock-temp-track {
+  flex: 1;
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.12);
+  position: relative;
+}
+
+.clock-temp-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 99px;
+  min-width: 4px;
+}
+
+.clock-temp-dot {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 /* ── 1-tall: side text uses primary color ──────────────── */
 @container (max-height: 100px) {
   .clock-ampm,

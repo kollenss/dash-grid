@@ -7,6 +7,7 @@
 
 import { registry } from '../../core/CardRegistry'
 import type { ConfigUIProps } from '../../core/types'
+import { useCore } from '../../core/CoreContext'
 
 import SensorCard        from './SensorCard'
 import SwitchCard        from './SwitchCard'
@@ -105,6 +106,9 @@ function AlarmConfigUI({ config, onChange }: ConfigUIProps) {
 }
 
 function ClockConfigUI({ config, onChange }: ConfigUIProps) {
+  const { states } = useCore()
+  const weatherEntities = Object.keys(states).filter(id => id.startsWith('weather.'))
+
   return (
     <>
       <label className="modal-label modal-label-check">
@@ -119,6 +123,24 @@ function ClockConfigUI({ config, onChange }: ConfigUIProps) {
         <input type="checkbox" checked={config.show_date !== false} onChange={e => onChange('show_date', e.target.checked)} />
         Show date
       </label>
+      <label className="modal-label modal-label-check">
+        <input type="checkbox" checked={!!config.show_weather} onChange={e => onChange('show_weather', e.target.checked)} />
+        Show weather forecast
+      </label>
+      {config.show_weather && (
+        <label className="modal-label">Weather entity
+          <select
+            className="modal-input"
+            value={config.weather_entity ?? ''}
+            onChange={e => onChange('weather_entity', e.target.value)}
+          >
+            <option value="">— select entity —</option>
+            {weatherEntities.map(id => (
+              <option key={id} value={id}>{id}</option>
+            ))}
+          </select>
+        </label>
+      )}
     </>
   )
 }
@@ -224,6 +246,27 @@ function ButtonPlusConfigUI({ config, onChange }: ConfigUIProps) {
         />
         Ambient animation (auto-detected from sensor unit)
       </label>
+      <label className="modal-label">Debug animation
+        <select
+          className="modal-input"
+          value={config.debug_ambient ?? ''}
+          onChange={e => onChange('debug_ambient', e.target.value || false)}
+        >
+          <option value="">Off (use auto-detect)</option>
+          <option value="wind">Wind</option>
+          <option value="electricity">Electricity</option>
+        </select>
+      </label>
+      {config.debug_ambient && (
+        <label className="modal-label">Debug value ({config.debug_ambient === 'wind' ? 'm/s' : 'W'})
+          <input
+            className="modal-input"
+            type="number"
+            value={config.debug_ambient_value ?? (config.debug_ambient === 'wind' ? 8 : 200)}
+            onChange={e => onChange('debug_ambient_value', Number(e.target.value))}
+          />
+        </label>
+      )}
     </>
   )
 }
