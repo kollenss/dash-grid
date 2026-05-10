@@ -519,16 +519,16 @@
   animation: bp-batt-stable-pulse 3s ease-in-out infinite;
 }
 
-/* ── cqh/cqw scaling — content grows with card size ─────────────────────────── */
+/* ── cqh/cqw scaling — content grows with card size, never shrinks below design minimums ── */
 @supports (font-size: 1cqh) {
-  .bp-card         { padding: 4cqh 4cqw; }
-  .bp-content      { gap: 3cqw; }
-  .bp-icon-wrap    { width: 40cqh; height: 40cqh; border-radius: 8cqh; }
+  .bp-card         { padding: max(12px, 4cqh) max(14px, 4cqw); }
+  .bp-content      { gap: max(10px, 3cqw); }
+  .bp-icon-wrap    { width: max(40px, 40cqh); height: max(40px, 40cqh); border-radius: max(12px, 8cqh); }
   .bp-icon-svg     { width: 55% !important; height: 55% !important; }
-  .bp-name         { font-size: 14cqh; }
-  .bp-state        { font-size: 12cqh; }
-  .bp-value        { gap: 1cqh; }
-  .bp-value-number { font-size: 24cqh; }
-  .bp-value-unit   { font-size: 10cqh; }
-  .bp-battery-bar  { height: 1.2cqh; bottom: 2cqh; left: 4cqw; right: 4cqw; }
+  .bp-name         { font-size: max(13px, 14cqh); }
+  .bp-state        { font-size: max(11px, 12cqh); }
+  .bp-value        { gap: max(3px, 1cqh); }
+  .bp-value-number { font-size: max(26px, 24cqh); }
+  .bp-value-unit   { font-size: max(11px, 10cqh); }
+  .bp-battery-bar  { height: max(5px, 1.2cqh); bottom: max(10px, 2cqh); left: max(14px, 4cqw); right: max(14px, 4cqw); }
 }
