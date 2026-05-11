@@ -428,6 +428,16 @@
   .bp-card { justify-content: flex-start; }
 }
 
+/* ── cqh scaling: content grows with card, never smaller than original ────────── */
+@supports (font-size: 1cqh) {
+  .bp-icon-wrap    { width: max(40px, 40cqh); height: max(40px, 40cqh); border-radius: max(12px, 8cqh); }
+  .bp-icon-svg     { width: 55% !important; height: 55% !important; }
+  .bp-name         { font-size: max(13px, 14cqh); }
+  .bp-state        { font-size: max(11px, 12cqh); }
+  .bp-value-number { font-size: max(26px, 24cqh); }
+  .bp-value-unit   { font-size: max(11px, 10cqh); }
+}
+
 /* 1 row (short card): scale down the big number */
 @container (max-height: 100px) {
   .bp-value-number { font-size: 20px; }
