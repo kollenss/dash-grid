@@ -29,6 +29,13 @@
   pointer-events: none;
 }
 
+.app-header--edit {
+  position: relative;
+  top: unset;
+  left: unset;
+  right: unset;
+}
+
 .app-title {
   font-size: 16px;
   font-weight: 700;

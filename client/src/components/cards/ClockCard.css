@@ -111,12 +111,13 @@
 /* ── Weather forecast layout ───────────────────────────── */
 .clock-weather {
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
   padding: 14px 16px;
 }
 
 .clock-w-top {
+  flex: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -161,13 +162,20 @@
 .clock-w-forecast {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0;
 }
 
 .clock-fc-row {
   display: flex;
   align-items: center;
   gap: 6px;
+  padding: max(5px, 1.2cqh) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.clock-fc-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .clock-fc-day {
@@ -234,14 +242,13 @@
 
 /* ── Weather layout — cqh/cqw scaling ──────────────────── */
 @supports (font-size: 1cqh) {
-  .clock-weather                    { padding: 3cqh 3cqw; gap: 2cqh; }
-  .clock-weather .clock-w-top       { gap: 3cqw; }
-  .clock-weather .clock-w-icon      { font-size: 14cqh; }
-  .clock-weather .clock-w-time      { font-size: 22cqh; }
-  .clock-weather .clock-w-condition { font-size: 5cqh; }
-  .clock-weather .clock-w-date      { font-size: 4.5cqh; margin-top: 0.5cqh; }
-  .clock-weather .clock-w-forecast  { gap: 1.5cqh; }
-  .clock-weather .clock-fc-row      { gap: 1.5cqw; }
+  .clock-weather                    { padding: 3cqh 2cqw; gap: 2cqh; }
+  .clock-weather .clock-w-top       { gap: 2cqw; }
+  .clock-weather .clock-w-icon      { font-size: 20cqh; }
+  .clock-weather .clock-w-time      { font-size: 30cqh; }
+  .clock-weather .clock-w-condition { font-size: 6.5cqh; }
+  .clock-weather .clock-w-date      { font-size: 5.5cqh; margin-top: 0.5cqh; }
+  .clock-weather .clock-fc-row      { gap: 1.5cqw; padding: max(5px, 1.2cqh) 0; }
   .clock-weather .clock-fc-day      { font-size: 4.5cqh; width: 3em; }
   .clock-weather .clock-fc-icon     { font-size: 4.5cqh; width: 1.8em; }
   .clock-weather .clock-fc-lo,

@@ -79,7 +79,13 @@ function Dashboard() {
   }, [])
 
   // Auto-hide header: hide after 3s idle, show when mouse near top (within 60px)
+  // In edit mode the header is always visible.
   useEffect(() => {
+    if (editMode) {
+      setHeaderVisible(true)
+      if (hideTimer.current) clearTimeout(hideTimer.current)
+      return
+    }
     function scheduleHide() {
       if (hideTimer.current) clearTimeout(hideTimer.current)
       hideTimer.current = setTimeout(() => setHeaderVisible(false), 3000)
@@ -98,7 +104,7 @@ function Dashboard() {
       window.removeEventListener('mousemove', onMouseMove)
       if (hideTimer.current) clearTimeout(hideTimer.current)
     }
-  }, [])
+  }, [editMode])
 
   async function handleAddCard(data: {
     type: string
@@ -178,7 +184,7 @@ function Dashboard() {
   return (
     <CoreProvider value={coreValue}>
       <div className="app-shell">
-        <header className={`app-header${headerVisible ? '' : ' app-header--hidden'}`}>
+        <header className={`app-header${editMode ? ' app-header--edit' : ''}${headerVisible ? '' : ' app-header--hidden'}`}>
           <span className="app-title">{boardName}</span>
           <div className="header-right">
             <label className="zoom-slider-label">
