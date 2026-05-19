@@ -1,0 +1,193 @@
+.news-card {
+  container-type: size;
+}
+
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.news-list::-webkit-scrollbar { width: 4px; }
+.news-list::-webkit-scrollbar-track { background: transparent; }
+.news-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.news-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.news-item-title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--hb-text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-item-time {
+  font-size: 10px;
+  color: var(--hb-text-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.news-loading,
+.news-empty,
+.news-error {
+  font-size: 12px;
+  color: var(--hb-text-secondary);
+  margin-top: 8px;
+}
+
+.news-error {
+  color: rgba(255, 100, 80, 0.9);
+}
+
+/* ── Modal ─────────────────────────────────────────────────────────────────── */
+
+.news-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.news-modal {
+  position: relative;
+  background: rgba(30, 30, 40, 0.92);
+  backdrop-filter: blur(32px) saturate(1.6);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  color: var(--hb-text-primary);
+  font-family: var(--font);
+}
+
+.news-modal::-webkit-scrollbar { width: 4px; }
+.news-modal::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.news-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--hb-text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.news-modal-close:hover {
+  background: rgba(255,255,255,0.2);
+  color: var(--hb-text-primary);
+}
+
+.news-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 32px 8px 0;
+  color: var(--hb-text-primary);
+}
+
+.news-modal-date {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--hb-text-dim);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.news-modal-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--hb-text-secondary);
+  margin-bottom: 20px;
+}
+
+.news-modal-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.news-modal-body a {
+  color: var(--hb-accent);
+  text-decoration: none;
+}
+
+.news-modal-body a:hover {
+  text-decoration: underline;
+}
+
+.news-modal-nobody {
+  font-style: italic;
+  color: var(--hb-text-dim);
+}
+
+.news-modal-link {
+  display: inline-block;
+  color: var(--hb-accent);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid rgba(90, 200, 250, 0.35);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.news-modal-link:hover {
+  background: rgba(90, 200, 250, 0.12);
+  border-color: rgba(90, 200, 250, 0.6);
+}

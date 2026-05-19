@@ -27,6 +27,7 @@ import GreetingCard      from './GreetingCard'
 import MarkdownCard      from './MarkdownCard'
 import IframeCard        from './IframeCard'
 import ButtonPlusCard   from './ButtonPlusCard'
+import NewsCard          from './NewsCard'
 
 // ─── ConfigUI components ───────────────────────────────────────────────────────
 // Rendered inside AddCardModal (step 2 — configuration).
@@ -484,4 +485,67 @@ registry.register({
   needsEntity: false,
   component: IframeCard,
   configUI: IframeConfigUI,
+})
+
+const RSS_PRESETS = [
+  { label: 'Göteborgs-Posten (GP)', url: 'https://www.gp.se/rss' },
+  { label: 'Aftonbladet', url: 'https://rss.aftonbladet.se/rss2/small/pages/sections/senastenytt/' },
+  { label: 'Dagens Nyheter (DN)', url: 'https://www.dn.se/rss/' },
+  { label: 'SVT Väst', url: 'https://www.svt.se/nyheter/lokalt/vast/rss.xml' },
+]
+
+function NewsConfigUI({ config, onChange }: ConfigUIProps) {
+  const isPreset = RSS_PRESETS.some(p => p.url === config.feed_url)
+  const selectValue = isPreset ? config.feed_url : 'custom'
+
+  return (
+    <>
+      <label className="modal-label">Title (optional, overrides feed name)
+        <input
+          className="modal-input"
+          value={config.title ?? ''}
+          onChange={e => onChange('title', e.target.value)}
+          placeholder="News"
+        />
+      </label>
+      <label className="modal-label">Source
+        <select
+          className="modal-input"
+          value={selectValue ?? 'custom'}
+          onChange={e => {
+            if (e.target.value !== 'custom') onChange('feed_url', e.target.value)
+            else onChange('feed_url', '')
+          }}
+        >
+          {RSS_PRESETS.map(p => (
+            <option key={p.url} value={p.url}>{p.label}</option>
+          ))}
+          <option value="custom">Custom URL…</option>
+        </select>
+      </label>
+      {!isPreset && (
+        <label className="modal-label">RSS feed URL
+          <input
+            className="modal-input"
+            type="url"
+            value={config.feed_url ?? ''}
+            onChange={e => onChange('feed_url', e.target.value)}
+            placeholder="https://example.com/rss"
+          />
+        </label>
+      )}
+    </>
+  )
+}
+
+registry.register({
+  type: 'news',
+  label: 'News',
+  icon: '📰',
+  group: 'Static',
+  defaultSize: [3, 3],
+  minSize: [2, 2],
+  needsEntity: false,
+  component: NewsCard,
+  configUI: NewsConfigUI,
 })

@@ -6,6 +6,7 @@ import fs from 'fs'
 import { configRoutes } from './routes/config'
 import { haProxyRoutes } from './routes/ha-proxy'
 import { vasttrafikProxyRoutes } from './routes/vasttrafik-proxy'
+import { rssProxyRoutes } from './routes/rss-proxy'
 import { backgroundRoutes } from './routes/backgrounds'
 import { pluginRoutes, loadInstalledPluginServers } from './routes/plugins'
 import { setupHAWebSocket } from './routes/ha-ws'
@@ -21,6 +22,7 @@ async function main() {
   await app.register(configRoutes, { prefix: '/api' })
   await app.register(haProxyRoutes, { prefix: '/api/ha' })
   await app.register(vasttrafikProxyRoutes, { prefix: '/api/vasttrafik' })
+  await app.register(rssProxyRoutes, { prefix: '/api/rss' })
   await app.register(backgroundRoutes, { prefix: '/api' })
   await app.register(pluginRoutes)
 
